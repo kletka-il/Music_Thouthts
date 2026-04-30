@@ -1,13 +1,13 @@
-"""Сборка macOS-приложения Music_Thoughts.app через PyInstaller.
-
-Запуск:
-    python3 build_mac.py
-
-Скрипт сам создаёт виртуальное окружение в .venv-build/, ставит туда
-PyInstaller, Flask и pywebview, и собирает .app — Homebrew Python не трогается.
-
-Результат: dist/Music_Thoughts.app — открывается двойным кликом в Finder.
-"""
+\
+\
+\
+\
+\
+\
+\
+\
+\
+   
 
 
 

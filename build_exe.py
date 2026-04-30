@@ -1,11 +1,11 @@
-"""Сборка автономного .exe (или бинарника на macOS/Linux) через PyInstaller.
-
-Запуск:
-    python build_exe.py
-
-Результат в папке dist/Music_Thoughts/.
-На Windows получится Music_Thoughts.exe.
-"""
+\
+\
+\
+\
+\
+\
+\
+   
 
 
 

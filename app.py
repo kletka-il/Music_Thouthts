@@ -3197,25 +3197,22 @@ def dm_inbox():
     conn = get_db()
 
     rows = conn.execute(
-
-        """
-        SELECT u2.id AS other_id, u2.username AS other, u2.avatar_emoji AS emoji,
-               (SELECT body FROM dm_messages
-                WHERE (from_id=u2.id AND to_id=?) OR (from_id=? AND to_id=u2.id)
-                ORDER BY created_at DESC LIMIT 1) AS last_body,
-               (SELECT created_at FROM dm_messages
-                WHERE (from_id=u2.id AND to_id=?) OR (from_id=? AND to_id=u2.id)
-                ORDER BY created_at DESC LIMIT 1) AS last_at,
-               (SELECT COUNT(*) FROM dm_messages
-                WHERE from_id=u2.id AND to_id=? AND is_read=0) AS unread
-        FROM users u2
-        WHERE u2.id IN (SELECT from_id FROM dm_messages WHERE to_id=?
-                        UNION SELECT to_id FROM dm_messages WHERE from_id=?)
-        ORDER BY last_at DESC
-        """,
-
+        (
+            "SELECT u2.id AS other_id, u2.username AS other, u2.avatar_emoji AS emoji, "
+            "(SELECT body FROM dm_messages "
+            " WHERE (from_id=u2.id AND to_id=?) OR (from_id=? AND to_id=u2.id) "
+            " ORDER BY created_at DESC LIMIT 1) AS last_body, "
+            "(SELECT created_at FROM dm_messages "
+            " WHERE (from_id=u2.id AND to_id=?) OR (from_id=? AND to_id=u2.id) "
+            " ORDER BY created_at DESC LIMIT 1) AS last_at, "
+            "(SELECT COUNT(*) FROM dm_messages "
+            " WHERE from_id=u2.id AND to_id=? AND is_read=0) AS unread "
+            "FROM users u2 "
+            "WHERE u2.id IN (SELECT from_id FROM dm_messages WHERE to_id=? "
+            "               UNION SELECT to_id FROM dm_messages WHERE from_id=?) "
+            "ORDER BY last_at DESC"
+        ),
         (u["id"], u["id"], u["id"], u["id"], u["id"], u["id"], u["id"]),
-
     ).fetchall()
 
     conn.close()
@@ -4978,21 +4975,27 @@ def rss():
 
         link = url_for("review_detail", rid=r["id"], _external=True)
 
-        items.append(f"""<item>
-  <title>{r['artist']} — {r['title']} ({r['score']}/10)</title>
-  <link>{link}</link>
-  <pubDate>{r['created_at']}</pubDate>
-  <description><![CDATA[{r['body'][:500]}]]></description>
-  <author>{r['author']}</author>
-</item>""")
+        items.append(
+            (
+                f"<item>\n"
+                f"  <title>{r['artist']} — {r['title']} ({r['score']}/10)</title>\n"
+                f"  <link>{link}</link>\n"
+                f"  <pubDate>{r['created_at']}</pubDate>\n"
+                f"  <description><![CDATA[{r['body'][:500]}]]></description>\n"
+                f"  <author>{r['author']}</author>\n"
+                f"</item>"
+            )
+        )
 
-    body = f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"><channel>
-<title>Music_Thoughts — рецензии</title>
-<link>{url_for('index', _external=True)}</link>
-<description>{get_setting('site_tagline', '')}</description>
-{''.join(items)}
-</channel></rss>"""
+    body = (
+        f'<?xml version="1.0" encoding="UTF-8"?>\n'
+        f"<rss version=\"2.0\"><channel>\n"
+        f"<title>Music_Thoughts — рецензии</title>\n"
+        f"<link>{url_for('index', _external=True)}</link>\n"
+        f"<description>{get_setting('site_tagline', '')}</description>\n"
+        f"{''.join(items)}\n"
+        f"</channel></rss>"
+    )
 
     return Response(body, mimetype="application/rss+xml")
 

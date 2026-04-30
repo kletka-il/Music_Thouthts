@@ -1,8 +1,8 @@
-"""Desktop-обёртка Music_Thoughts.
-
-Запускает Flask-сервер в фоне и открывает окно через pywebview.
-Из этого файла собирается .exe через PyInstaller (см. build_exe.py).
-"""
+\
+\
+\
+\
+   
 
 
 

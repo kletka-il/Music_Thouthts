@@ -32,377 +32,7 @@ def get_db():
 
 
 
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'viewer',
-    bio TEXT DEFAULT '',
-    avatar_emoji TEXT DEFAULT '🎵',
-    theme TEXT DEFAULT 'dark',
-    favorite_genre TEXT DEFAULT '',
-    spotify_link TEXT DEFAULT '',
-    listening_now TEXT DEFAULT '',
-    is_banned INTEGER NOT NULL DEFAULT 0,
-    ban_reason TEXT DEFAULT '',
-    created_at TEXT NOT NULL,
-    last_login TEXT,
-    streak_days INTEGER NOT NULL DEFAULT 0,
-    last_visit_day TEXT
-);
-
-CREATE TABLE IF NOT EXISTS reviews (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    author_id INTEGER NOT NULL,
-    artist TEXT NOT NULL,
-    title TEXT NOT NULL,
-    genre TEXT DEFAULT '',
-    year INTEGER,
-    cover_url TEXT DEFAULT '',
-    listen_url TEXT DEFAULT '',
-    body TEXT NOT NULL,
-    score INTEGER NOT NULL DEFAULT 5,
-    mood TEXT DEFAULT '',
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    is_featured INTEGER NOT NULL DEFAULT 0,
-    is_draft INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
-    views INTEGER NOT NULL DEFAULT 0,
-    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS comments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    review_id INTEGER NOT NULL,
-    author_id INTEGER NOT NULL,
-    parent_id INTEGER,
-    body TEXT NOT NULL,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
-    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS ratings (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    review_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    value INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    UNIQUE(review_id, user_id),
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS comment_ratings (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    comment_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    value INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    UNIQUE(comment_id, user_id),
-    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS reports (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    reporter_id INTEGER NOT NULL,
-    target_type TEXT NOT NULL,
-    target_id INTEGER NOT NULL,
-    reason TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'open',
-    handler_id INTEGER,
-    resolution TEXT DEFAULT '',
-    created_at TEXT NOT NULL,
-    resolved_at TEXT,
-    FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS mod_log (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    moderator_id INTEGER NOT NULL,
-    action TEXT NOT NULL,
-    details TEXT DEFAULT '',
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (moderator_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS guestbook (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    author_name TEXT NOT NULL,
-    body TEXT NOT NULL,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS settings (
-    key TEXT PRIMARY KEY,
-    value TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS banned_words (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    word TEXT UNIQUE NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS site_stats (
-    key TEXT PRIMARY KEY,
-    value INTEGER NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS tags (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS review_tags (
-    review_id INTEGER NOT NULL,
-    tag_id INTEGER NOT NULL,
-    PRIMARY KEY (review_id, tag_id),
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
-    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS follows (
-    follower_id INTEGER NOT NULL,
-    followee_id INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    PRIMARY KEY (follower_id, followee_id),
-    FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (followee_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS bookmarks (
-    user_id INTEGER NOT NULL,
-    review_id INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    PRIMARY KEY (user_id, review_id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS notifications (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    kind TEXT NOT NULL,
-    body TEXT NOT NULL,
-    link TEXT DEFAULT '',
-    is_read INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS achievements (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    code TEXT NOT NULL,
-    awarded_at TEXT NOT NULL,
-    UNIQUE(user_id, code),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Плейлисты-подборки
-CREATE TABLE IF NOT EXISTS playlists (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    owner_id INTEGER NOT NULL,
-    title TEXT NOT NULL,
-    description TEXT DEFAULT '',
-    cover_emoji TEXT DEFAULT '🎶',
-    is_public INTEGER NOT NULL DEFAULT 1,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS playlist_items (
-    playlist_id INTEGER NOT NULL,
-    review_id INTEGER NOT NULL,
-    position INTEGER NOT NULL DEFAULT 0,
-    note TEXT DEFAULT '',
-    PRIMARY KEY (playlist_id, review_id),
-    FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE,
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE
-);
-
--- Альбом дня (выбирается модератором или назначается «случайно»)
-CREATE TABLE IF NOT EXISTS song_of_day (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    review_id INTEGER NOT NULL,
-    note TEXT DEFAULT '',
-    set_at TEXT NOT NULL,
-    set_by INTEGER,
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE
-);
-
--- Цитаты из песен
-CREATE TABLE IF NOT EXISTS lyrics_quotes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    text TEXT NOT NULL,
-    artist TEXT DEFAULT '',
-    song TEXT DEFAULT '',
-    submitted_by INTEGER,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL
-);
-
--- Афиша / события
-CREATE TABLE IF NOT EXISTS events (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    description TEXT DEFAULT '',
-    city TEXT DEFAULT '',
-    venue TEXT DEFAULT '',
-    starts_at TEXT NOT NULL,
-    link TEXT DEFAULT '',
-    cover_emoji TEXT DEFAULT '🎤',
-    created_by INTEGER,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS event_attendees (
-    event_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    PRIMARY KEY (event_id, user_id),
-    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Опросы
-CREATE TABLE IF NOT EXISTS polls (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT NOT NULL,
-    is_closed INTEGER NOT NULL DEFAULT 0,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_by INTEGER,
-    created_at TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS poll_options (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    poll_id INTEGER NOT NULL,
-    text TEXT NOT NULL,
-    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS poll_votes (
-    poll_id INTEGER NOT NULL,
-    option_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    PRIMARY KEY (poll_id, user_id),
-    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE,
-    FOREIGN KEY (option_id) REFERENCES poll_options(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Челленджи
-CREATE TABLE IF NOT EXISTS challenges (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    description TEXT DEFAULT '',
-    starts_at TEXT NOT NULL,
-    ends_at TEXT NOT NULL,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_by INTEGER,
-    created_at TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS challenge_submissions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    challenge_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    review_id INTEGER,
-    text TEXT DEFAULT '',
-    created_at TEXT NOT NULL,
-    UNIQUE(challenge_id, user_id),
-    FOREIGN KEY (challenge_id) REFERENCES challenges(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE SET NULL
-);
-
--- Дневник прослушивания
-CREATE TABLE IF NOT EXISTS listening_log (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    artist TEXT NOT NULL,
-    title TEXT DEFAULT '',
-    note TEXT DEFAULT '',
-    mood TEXT DEFAULT '',
-    rating INTEGER DEFAULT 0,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Подпись на стене профиля (shoutout)
-CREATE TABLE IF NOT EXISTS shoutouts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    profile_user_id INTEGER NOT NULL,
-    author_id INTEGER NOT NULL,
-    body TEXT NOT NULL,
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (profile_user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Прямые сообщения
-CREATE TABLE IF NOT EXISTS dm_messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    from_id INTEGER NOT NULL,
-    to_id INTEGER NOT NULL,
-    body TEXT NOT NULL,
-    is_read INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (from_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (to_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Викторина
-CREATE TABLE IF NOT EXISTS quiz_questions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    question TEXT NOT NULL,
-    options TEXT NOT NULL,
-    correct INTEGER NOT NULL,
-    explanation TEXT DEFAULT '',
-    is_hidden INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS quiz_attempts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    score INTEGER NOT NULL,
-    total INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Балльная оценка трека от каждого пользователя (1..10)
-CREATE TABLE IF NOT EXISTS track_scores (
-    review_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    value INTEGER NOT NULL CHECK(value BETWEEN 1 AND 10),
-    created_at TEXT NOT NULL,
-    PRIMARY KEY (review_id, user_id),
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_track_scores_review ON track_scores(review_id);
-
-CREATE INDEX IF NOT EXISTS idx_reviews_author ON reviews(author_id);
-CREATE INDEX IF NOT EXISTS idx_reviews_genre ON reviews(genre);
-CREATE INDEX IF NOT EXISTS idx_comments_review ON comments(review_id);
-CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, is_read);
-CREATE INDEX IF NOT EXISTS idx_dm_pair ON dm_messages(from_id, to_id);
-CREATE INDEX IF NOT EXISTS idx_listening_user ON listening_log(user_id);
-"""
+SCHEMA = "CREATE TABLE IF NOT EXISTS users (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    username TEXT UNIQUE NOT NULL,\n    email TEXT UNIQUE NOT NULL,\n    password_hash TEXT NOT NULL,\n    role TEXT NOT NULL DEFAULT 'viewer',\n    bio TEXT DEFAULT '',\n    avatar_emoji TEXT DEFAULT '🎵',\n    theme TEXT DEFAULT 'dark',\n    favorite_genre TEXT DEFAULT '',\n    spotify_link TEXT DEFAULT '',\n    listening_now TEXT DEFAULT '',\n    is_banned INTEGER NOT NULL DEFAULT 0,\n    ban_reason TEXT DEFAULT '',\n    created_at TEXT NOT NULL,\n    last_login TEXT,\n    streak_days INTEGER NOT NULL DEFAULT 0,\n    last_visit_day TEXT\n);\n\nCREATE TABLE IF NOT EXISTS reviews (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    author_id INTEGER NOT NULL,\n    artist TEXT NOT NULL,\n    title TEXT NOT NULL,\n    genre TEXT DEFAULT '',\n    year INTEGER,\n    cover_url TEXT DEFAULT '',\n    listen_url TEXT DEFAULT '',\n    body TEXT NOT NULL,\n    score INTEGER NOT NULL DEFAULT 5,\n    mood TEXT DEFAULT '',\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    is_featured INTEGER NOT NULL DEFAULT 0,\n    is_draft INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL,\n    updated_at TEXT NOT NULL,\n    views INTEGER NOT NULL DEFAULT 0,\n    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS comments (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    review_id INTEGER NOT NULL,\n    author_id INTEGER NOT NULL,\n    parent_id INTEGER,\n    body TEXT NOT NULL,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,\n    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS ratings (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    review_id INTEGER NOT NULL,\n    user_id INTEGER NOT NULL,\n    value INTEGER NOT NULL,\n    created_at TEXT NOT NULL,\n    UNIQUE(review_id, user_id),\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS comment_ratings (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    comment_id INTEGER NOT NULL,\n    user_id INTEGER NOT NULL,\n    value INTEGER NOT NULL,\n    created_at TEXT NOT NULL,\n    UNIQUE(comment_id, user_id),\n    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS reports (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    reporter_id INTEGER NOT NULL,\n    target_type TEXT NOT NULL,\n    target_id INTEGER NOT NULL,\n    reason TEXT NOT NULL,\n    status TEXT NOT NULL DEFAULT 'open',\n    handler_id INTEGER,\n    resolution TEXT DEFAULT '',\n    created_at TEXT NOT NULL,\n    resolved_at TEXT,\n    FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS mod_log (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    moderator_id INTEGER NOT NULL,\n    action TEXT NOT NULL,\n    details TEXT DEFAULT '',\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (moderator_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS guestbook (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    author_name TEXT NOT NULL,\n    body TEXT NOT NULL,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS settings (\n    key TEXT PRIMARY KEY,\n    value TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS banned_words (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    word TEXT UNIQUE NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS site_stats (\n    key TEXT PRIMARY KEY,\n    value INTEGER NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS tags (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT UNIQUE NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS review_tags (\n    review_id INTEGER NOT NULL,\n    tag_id INTEGER NOT NULL,\n    PRIMARY KEY (review_id, tag_id),\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,\n    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS follows (\n    follower_id INTEGER NOT NULL,\n    followee_id INTEGER NOT NULL,\n    created_at TEXT NOT NULL,\n    PRIMARY KEY (follower_id, followee_id),\n    FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (followee_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS bookmarks (\n    user_id INTEGER NOT NULL,\n    review_id INTEGER NOT NULL,\n    created_at TEXT NOT NULL,\n    PRIMARY KEY (user_id, review_id),\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS notifications (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER NOT NULL,\n    kind TEXT NOT NULL,\n    body TEXT NOT NULL,\n    link TEXT DEFAULT '',\n    is_read INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS achievements (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER NOT NULL,\n    code TEXT NOT NULL,\n    awarded_at TEXT NOT NULL,\n    UNIQUE(user_id, code),\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS playlists (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    owner_id INTEGER NOT NULL,\n    title TEXT NOT NULL,\n    description TEXT DEFAULT '',\n    cover_emoji TEXT DEFAULT '🎶',\n    is_public INTEGER NOT NULL DEFAULT 1,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS playlist_items (\n    playlist_id INTEGER NOT NULL,\n    review_id INTEGER NOT NULL,\n    position INTEGER NOT NULL DEFAULT 0,\n    note TEXT DEFAULT '',\n    PRIMARY KEY (playlist_id, review_id),\n    FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE,\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS song_of_day (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    review_id INTEGER NOT NULL,\n    note TEXT DEFAULT '',\n    set_at TEXT NOT NULL,\n    set_by INTEGER,\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS lyrics_quotes (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    text TEXT NOT NULL,\n    artist TEXT DEFAULT '',\n    song TEXT DEFAULT '',\n    submitted_by INTEGER,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS events (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    title TEXT NOT NULL,\n    description TEXT DEFAULT '',\n    city TEXT DEFAULT '',\n    venue TEXT DEFAULT '',\n    starts_at TEXT NOT NULL,\n    link TEXT DEFAULT '',\n    cover_emoji TEXT DEFAULT '🎤',\n    created_by INTEGER,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS event_attendees (\n    event_id INTEGER NOT NULL,\n    user_id INTEGER NOT NULL,\n    PRIMARY KEY (event_id, user_id),\n    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS polls (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    question TEXT NOT NULL,\n    is_closed INTEGER NOT NULL DEFAULT 0,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_by INTEGER,\n    created_at TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS poll_options (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    poll_id INTEGER NOT NULL,\n    text TEXT NOT NULL,\n    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS poll_votes (\n    poll_id INTEGER NOT NULL,\n    option_id INTEGER NOT NULL,\n    user_id INTEGER NOT NULL,\n    created_at TEXT NOT NULL,\n    PRIMARY KEY (poll_id, user_id),\n    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE,\n    FOREIGN KEY (option_id) REFERENCES poll_options(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS challenges (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    title TEXT NOT NULL,\n    description TEXT DEFAULT '',\n    starts_at TEXT NOT NULL,\n    ends_at TEXT NOT NULL,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_by INTEGER,\n    created_at TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS challenge_submissions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    challenge_id INTEGER NOT NULL,\n    user_id INTEGER NOT NULL,\n    review_id INTEGER,\n    text TEXT DEFAULT '',\n    created_at TEXT NOT NULL,\n    UNIQUE(challenge_id, user_id),\n    FOREIGN KEY (challenge_id) REFERENCES challenges(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE SET NULL\n);\n\nCREATE TABLE IF NOT EXISTS listening_log (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER NOT NULL,\n    artist TEXT NOT NULL,\n    title TEXT DEFAULT '',\n    note TEXT DEFAULT '',\n    mood TEXT DEFAULT '',\n    rating INTEGER DEFAULT 0,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS shoutouts (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    profile_user_id INTEGER NOT NULL,\n    author_id INTEGER NOT NULL,\n    body TEXT NOT NULL,\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (profile_user_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS dm_messages (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    from_id INTEGER NOT NULL,\n    to_id INTEGER NOT NULL,\n    body TEXT NOT NULL,\n    is_read INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (from_id) REFERENCES users(id) ON DELETE CASCADE,\n    FOREIGN KEY (to_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS quiz_questions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    question TEXT NOT NULL,\n    options TEXT NOT NULL,\n    correct INTEGER NOT NULL,\n    explanation TEXT DEFAULT '',\n    is_hidden INTEGER NOT NULL DEFAULT 0,\n    created_at TEXT NOT NULL\n);\n\nCREATE TABLE IF NOT EXISTS quiz_attempts (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER NOT NULL,\n    score INTEGER NOT NULL,\n    total INTEGER NOT NULL,\n    created_at TEXT NOT NULL,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE TABLE IF NOT EXISTS track_scores (\n    review_id INTEGER NOT NULL,\n    user_id INTEGER NOT NULL,\n    value INTEGER NOT NULL CHECK(value BETWEEN 1 AND 10),\n    created_at TEXT NOT NULL,\n    PRIMARY KEY (review_id, user_id),\n    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n\nCREATE INDEX IF NOT EXISTS idx_track_scores_review ON track_scores(review_id);\n\nCREATE INDEX IF NOT EXISTS idx_reviews_author ON reviews(author_id);\nCREATE INDEX IF NOT EXISTS idx_reviews_genre ON reviews(genre);\nCREATE INDEX IF NOT EXISTS idx_comments_review ON comments(review_id);\nCREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, is_read);\nCREATE INDEX IF NOT EXISTS idx_dm_pair ON dm_messages(from_id, to_id);\nCREATE INDEX IF NOT EXISTS idx_listening_user ON listening_log(user_id);\n"
 
 
 
@@ -1598,7 +1228,7 @@ def get_review_tags(review_id):
 
 def _resolve_youtube_id(query, timeout=8):
 
-    """Скрапит первый videoId из выдачи YouTube. None при ошибке/тайм-ауте."""
+                                                                              
 
     import urllib.request, urllib.parse
 
@@ -1632,7 +1262,7 @@ def _resolve_youtube_id(query, timeout=8):
 
 def resolve_listen_urls():
 
-    """Перебирает рецензии с поисковыми listen_url и заменяет их на конкретные watch-URL."""
+                                                                                            
 
     conn = get_db()
 
@@ -1676,7 +1306,7 @@ def resolve_listen_urls():
 
 def detect_embed(url):
 
-    """Распознаёт URL YouTube / SoundCloud / Spotify и отдаёт iframe-URL."""
+                                                                            
 
     if not url:
 
@@ -1708,7 +1338,7 @@ def detect_embed(url):
 
 def update_streak(user_id):
 
-    """Поддерживает счётчик дней подряд. Возвращает текущий streak."""
+                                                                      
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
@@ -1810,7 +1440,7 @@ def random_lyric_quote():
 
 def get_recommendations_for(user_id, limit=5):
 
-    """Подбор рецензий по любимому жанру / просмотренным тегам / случайные."""
+                                                                              
 
     conn = get_db()
 
@@ -1872,7 +1502,7 @@ def get_recommendations_for(user_id, limit=5):
 
 def force_drop_db():
 
-    """Полностью пересоздать БД (для тестов)."""
+                                                
 
     if os.path.exists(DB_PATH):
 
