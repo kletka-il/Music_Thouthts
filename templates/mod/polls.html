@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Опросы · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">📊 Опросы · {{ polls|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card mb-16">
+    <h3 class="lb-title">＋ Новый опрос</h3>
+    <form method="post">
+        <div class="field">
+            <label>Вопрос *</label>
+            <input type="text" name="question" required maxlength="200" placeholder="Какой альбом 2025-го лучший?">
+        </div>
+        <div class="field">
+            <label>Варианты (каждый с новой строки, минимум 2, максимум 8)</label>
+            <textarea name="options" required style="min-height:140px" placeholder="Вариант 1&#10;Вариант 2&#10;Вариант 3"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">📤 Создать опрос</button>
+    </form>
+</div>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>#</th><th>Вопрос</th><th>Голосов</th><th>Статус</th><th></th></tr></thead>
+        <tbody>
+        {% for p in polls %}
+        <tr>
+            <td class="text-dim">#{{ p['id'] }}</td>
+            <td><a href="{{ url_for('poll_detail', pid=p['id']) }}">{{ p['question'] }}</a></td>
+            <td><span class="lb-pill">{{ p['vc'] }}</span></td>
+            <td>
+                <form method="post" action="{{ url_for('mod_poll_toggle_close', pid=p['id']) }}">
+                    <button class="btn btn-sm {% if p['is_closed'] %}btn-danger{% endif %}" type="submit">
+                        {{ '🔒 закрыт' if p['is_closed'] else '🔓 идёт' }}
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{ url_for('mod_poll_delete', pid=p['id']) }}" onsubmit="return confirm('Удалить опрос?')">
+                    <button class="btn btn-sm btn-danger" type="submit">×</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-dim">— опросов нет —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

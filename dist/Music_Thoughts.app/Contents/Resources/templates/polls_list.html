@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Опросы{% endblock %}
+{% block content %}
+<h2 class="section-title">📊 Опросы сообщества</h2>
+<p class="text-dim mb-16">Голосуйте, спорьте, выясняйте, кто прав.</p>
+
+{% for p in polls %}
+<a class="poll-list-card {% if p['is_closed'] %}closed{% endif %}" href="{{ url_for('poll_detail', pid=p['id']) }}">
+    <div class="poll-q">{{ p['question'] }}</div>
+    <div class="text-dim small">
+        {{ p['vc'] }} голос(ов) · {{ p['created_at']|ago }}
+        {% if p['is_closed'] %}· <span class="role-badge" style="background:var(--bad);color:#fff">завершён</span>{% endif %}
+    </div>
+</a>
+{% else %}
+<div class="empty"><div class="ic">🗳</div>Опросов пока нет — модерация что-то готовит.</div>
+{% endfor %}
+{% endblock %}

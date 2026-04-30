@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ c['title'] }}{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="text-dim small">🏁 Челлендж · до {{ c['ends_at']|nicedate }}</div>
+    <h1 class="review-title">{{ c['emoji'] or '🏁' }} {{ c['title'] }}</h1>
+    {% if c['description'] %}
+    <div class="review-body mt-8">
+        {% for para in c['description'].split('\n\n') %}<p>{{ para }}</p>{% endfor %}
+    </div>
+    {% endif %}
+    {% if c['prize'] %}<div class="mt-8">🎁 <b>Приз:</b> {{ c['prize'] }}</div>{% endif %}
+</div>
+
+{% if current_user %}
+<div class="card mt-16">
+    <h3 class="section-title">{% if my_subm %}✎ Моя заявка{% else %}＋ Участвовать{% endif %}</h3>
+    <form method="post">
+        <div class="field">
+            <label>Прикрепить рецензию (по желанию)</label>
+            <select name="review_id">
+                <option value="">— без рецензии —</option>
+                {% for r in my_reviews %}
+                <option value="{{ r['id'] }}" {% if my_subm and my_subm['review_id']==r['id'] %}selected{% endif %}>{{ r['artist'] }} — {{ r['title'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <label>Комментарий</label>
+            <textarea name="text" maxlength="1000" placeholder="Расскажите, почему именно этот выбор">{{ my_subm['text'] if my_subm else '' }}</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">{% if my_subm %}💾 Обновить{% else %}📤 Отправить заявку{% endif %}</button>
+    </form>
+</div>
+{% else %}
+<p class="text-dim mt-12">Чтобы участвовать, <a href="{{ url_for('login') }}">войдите</a>.</p>
+{% endif %}
+
+<h3 class="section-title mt-16">Заявки участников · {{ submissions|length }}</h3>
+{% for s in submissions %}
+<div class="card subm-card">
+    <div class="row gap-8" style="align-items:center">
+        <span style="font-size:22px">{{ s['emoji'] }}</span>
+        <a class="lb-name" href="{{ url_for('profile', username=s['author']) }}">{{ s['author'] }}</a>
+        <span class="text-dim small">· {{ s['created_at']|ago }}</span>
+    </div>
+    {% if s['review_id'] %}
+    <div class="mt-8">
+        🎧 <a href="{{ url_for('review_detail', rid=s['review_id']) }}">{{ s['artist'] }} — {{ s['title'] }}</a>
+    </div>
+    {% endif %}
+    {% if s['text'] %}<div class="mt-8" style="white-space:pre-wrap">{{ s['text'] }}</div>{% endif %}
+</div>
+{% else %}
+<div class="empty"><div class="ic">🪧</div>Будьте первым, кто отправит заявку.</div>
+{% endfor %}
+{% endblock %}

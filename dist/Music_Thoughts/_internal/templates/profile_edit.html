@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Настройки профиля{% endblock %}
+{% block content %}
+<div class="card" style="max-width:600px;margin:20px auto">
+    <h2 class="section-title">✎ Редактирование профиля</h2>
+    <form method="post">
+        <div class="field">
+            <label>Аватар (один эмодзи)</label>
+            <input type="text" name="avatar_emoji" maxlength="8" value="{{ u['avatar_emoji'] }}" style="max-width:120px;font-size:22px;text-align:center">
+        </div>
+        <div class="field">
+            <label>О себе</label>
+            <textarea name="bio" maxlength="500" placeholder="Расскажите о любимых жанрах, музыкальных вкусах…">{{ u['bio'] or '' }}</textarea>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Любимый жанр (для рекомендаций)</label>
+                <input type="text" name="favorite_genre" maxlength="60" value="{{ u['favorite_genre'] or '' }}" placeholder="например: пост-панк">
+            </div>
+            <div class="field">
+                <label>Ссылка на стриминг (Spotify/Я.Музыка/др.)</label>
+                <input type="url" name="spotify_link" maxlength="200" value="{{ u['spotify_link'] or '' }}" placeholder="https://open.spotify.com/user/…">
+            </div>
+        </div>
+        <div class="field">
+            <label>Сейчас слушаю</label>
+            <input type="text" name="listening_now" maxlength="120" value="{{ u['listening_now'] or '' }}" placeholder="Кино — Группа крови">
+        </div>
+        <div class="field">
+            <label>Тема оформления</label>
+            <select name="theme">
+                <option value="dark"  {% if u['theme']!='light' %}selected{% endif %}>🌙 Тёмная (чёрно-бордовая)</option>
+                <option value="light" {% if u['theme']=='light' %}selected{% endif %}>☀ Светлая (голубо-белая)</option>
+            </select>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" type="submit">Сохранить</button>
+            <a class="btn" href="{{ url_for('profile', username=u['username']) }}">Отмена</a>
+            <a class="btn" href="{{ url_for('password_change') }}">🔑 Сменить пароль</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block side %}{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Рекомендации{% endblock %}
+{% block content %}
+<h2 class="section-title">✨ Рекомендации для вас</h2>
+<p class="text-dim mb-16">Подобрано на основе ваших оценок, закладок и любимого жанра.</p>
+
+{% for r in items %}
+    {% include "_review_card.html" %}
+{% else %}
+<div class="empty">
+    <div class="ic">🌠</div>
+    <div>Пока не из чего собрать рекомендации. Поставьте 👍 нескольким рецензиям, добавьте закладки — и эта страница оживёт.</div>
+    <a class="btn btn-primary mt-12" href="{{ url_for('reviews_list') }}">К каталогу →</a>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Результат викторины{% endblock %}
+{% block content %}
+<h2 class="section-title">🏆 Результат викторины</h2>
+
+<div class="card" style="text-align:center">
+    <div class="quiz-result-circle">
+        <div class="qr-num">{{ score }}</div>
+        <div class="qr-of">из {{ total }}</div>
+    </div>
+    <h3 class="mt-12">
+        {% if total > 0 and score == total %}
+        🥇 Идеально! Вы знаете музыку наизусть.
+        {% elif total > 0 and score * 2 >= total %}
+        👍 Хорошо! Большинство ответов верные.
+        {% else %}
+        🎧 Попробуйте ещё раз — каждый вопрос делает знания крепче.
+        {% endif %}
+    </h3>
+    <a class="btn btn-primary mt-12" href="{{ url_for('quiz') }}">🔁 Пройти ещё раз</a>
+</div>
+
+<h3 class="section-title mt-16">Разбор ответов</h3>
+{% for d in details %}
+<div class="card quiz-review {% if d['ok'] %}ok{% else %}bad{% endif %}">
+    <div class="quiz-q-num">Вопрос {{ loop.index }} · {% if d['ok'] %}✓ верно{% else %}✕ неверно{% endif %}</div>
+    <div class="quiz-q-text">{{ d['q'] }}</div>
+    <div class="quiz-options">
+        {% for opt in d['options'] %}
+        <div class="quiz-opt {% if loop.index0==d['correct'] %}is-correct{% endif %} {% if loop.index0==d['ans'] and not d['ok'] %}is-wrong{% endif %}">
+            <span>{{ opt }}</span>
+            {% if loop.index0==d['correct'] %}<span class="text-dim small">— правильный</span>{% endif %}
+            {% if loop.index0==d['ans'] and not d['ok'] %}<span class="text-dim small">— ваш ответ</span>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% if d['explanation'] %}
+    <div class="text-dim mt-8" style="font-style:italic">💡 {{ d['explanation'] }}</div>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

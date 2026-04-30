@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Челленджи{% endblock %}
+{% block content %}
+<h2 class="section-title">🏁 Челленджи сообщества</h2>
+<p class="text-dim mb-16">Тематические задания: подборка дня, рецензия недели, музыкальные марафоны.</p>
+
+<h3 class="section-title">🔥 Активные</h3>
+{% for c in active %}
+<a class="challenge-card" href="{{ url_for('challenge_detail', cid=c['id']) }}">
+    <div class="ch-emoji">{{ c['emoji'] or '🏁' }}</div>
+    <div class="ch-meta">
+        <div class="ch-title">{{ c['title'] }}</div>
+        {% if c['description'] %}<div class="ch-desc">{{ c['description']|truncate(160) }}</div>{% endif %}
+        <div class="text-dim small">
+            до {{ c['ends_at']|nicedate }}
+            · {{ c['sc'] }} участников
+            {% if c['prize'] %}· 🎁 {{ c['prize'] }}{% endif %}
+        </div>
+    </div>
+</a>
+{% else %}
+<div class="empty"><div class="ic">🌱</div>Сейчас активных челленджей нет — заглядывайте позже.</div>
+{% endfor %}
+
+{% if past %}
+<h3 class="section-title mt-24">🕰 Завершённые</h3>
+{% for c in past %}
+<a class="challenge-card past" href="{{ url_for('challenge_detail', cid=c['id']) }}">
+    <div class="ch-emoji">{{ c['emoji'] or '🏁' }}</div>
+    <div class="ch-meta">
+        <div class="ch-title">{{ c['title'] }}</div>
+        <div class="text-dim small">завершён {{ c['ends_at']|nicedate }} · {{ c['sc'] }} участников</div>
+    </div>
+</a>
+{% endfor %}
+{% endif %}
+{% endblock %}

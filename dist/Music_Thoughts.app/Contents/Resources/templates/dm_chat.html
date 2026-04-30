@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Чат с {{ other['username'] }}{% endblock %}
+{% block content %}
+<h2 class="section-title">
+    <a href="{{ url_for('dm_inbox') }}" class="text-dim">←</a>
+    {{ other['avatar_emoji'] }} <a href="{{ url_for('profile', username=other['username']) }}">{{ other['username'] }}</a>
+</h2>
+
+<div class="chat-window">
+    {% for m in msgs %}
+    <div class="msg {% if m['from_id']==current_user['id'] %}is-me{% else %}is-them{% endif %}">
+        <div class="msg-body">{{ m['body'] }}</div>
+        <div class="msg-when">{{ m['created_at']|ago }}</div>
+    </div>
+    {% else %}
+    <div class="empty"><div class="ic">💬</div>Начните диалог — напишите первое сообщение.</div>
+    {% endfor %}
+</div>
+
+<form method="post" class="chat-form">
+    <textarea name="body" required maxlength="1000" placeholder="Сообщение для {{ other['username'] }}…"></textarea>
+    <button class="btn btn-primary" type="submit">Отправить ↗</button>
+</form>
+{% endblock %}
+{% block side %}{% endblock %}

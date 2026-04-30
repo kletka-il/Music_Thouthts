@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+
+{% block hero %}
+<section class="hero">
+    <h1>Музыкальные мысли</h1>
+    <p>{{ site_banner or 'Рецензии, голоса и обсуждения от русскоязычного сообщества.' }}</p>
+    <div class="hero-actions">
+        {% if current_user and current_user['role'] in ('reviewer','moderator') %}
+            <a class="btn btn-primary" href="{{ url_for('review_new') }}">＋ Написать рецензию</a>
+        {% elif not current_user %}
+            <a class="btn btn-primary" href="{{ url_for('register') }}">Создать аккаунт</a>
+        {% endif %}
+        <a class="btn" href="{{ url_for('reviews_list') }}">Все рецензии</a>
+        <a class="btn btn-ghost" href="{{ url_for('discover') }}">🎲 Случайная</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+
+{% if sotd %}
+<a class="sotd" href="{{ url_for('review_detail', rid=sotd['rid']) }}">
+    <div class="cover-mini">
+        {% if sotd['cover_url'] %}<img src="{{ sotd['cover_url'] }}" alt="">{% else %}🎧{% endif %}
+    </div>
+    <div>
+        <div class="label">Альбом дня</div>
+        <div class="title">{{ sotd['artist'] }} — {{ sotd['title'] }}</div>
+        {% if sotd['note'] %}<div class="note">{{ sotd['note'] }}</div>{% endif %}
+    </div>
+</a>
+{% endif %}
+
+{% if quote %}
+<div class="lyric-quote">
+    {{ quote['text'] }}
+    <span class="src">— {{ quote['artist'] or 'неизвестно' }}{% if quote['song'] %}, «{{ quote['song'] }}»{% endif %}</span>
+</div>
+{% endif %}
+
+{% if active_challenge %}
+<div class="challenge-card active">
+    <div class="row between items-center">
+        <div>
+            <div class="title">🎯 {{ active_challenge['title'] }}</div>
+            <div class="deadline">До {{ active_challenge['ends_at']|nicedate }} · {{ active_challenge['ends_at']|until }}</div>
+        </div>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('challenge_detail', cid=active_challenge['id']) }}">Участвовать</a>
+    </div>
+    {% if active_challenge['description'] %}
+    <p class="text-dim mt-8 mb-0" style="font-size:13.5px">{{ active_challenge['description'][:200] }}{% if active_challenge['description']|length > 200 %}…{% endif %}</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if featured %}
+<section>
+    <h2 class="section-title">★ Рекомендуем <a class="small" href="{{ url_for('reviews_list', sort='top') }}">все →</a></h2>
+    {% for r in featured %}
+        {% include "_review_card.html" %}
+    {% endfor %}
+</section>
+{% endif %}
+
+<section>
+    <h2 class="section-title">Свежие рецензии <a class="small" href="{{ url_for('reviews_list', sort='new') }}">все →</a></h2>
+    {% for r in latest %}
+        {% include "_review_card.html" %}
+    {% else %}
+        <div class="empty"><div class="ic">🎵</div>Пока пусто. Будьте первым!</div>
+    {% endfor %}
+</section>
+{% endblock %}
+
+{% block side %}
+<div class="card">
+    <h3>В сообществе</h3>
+    <div class="kv"><b>Посещений</b><span>{{ visits }}</span></div>
+    {% if current_user and current_user['streak_days'] %}
+    <div class="kv"><b>Серия</b><span class="streak-badge">🔥 {{ current_user['streak_days'] }}</span></div>
+    {% endif %}
+</div>
+
+{% if active_poll %}
+<div class="card">
+    <h3>📊 Опрос недели</h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:17px;margin-bottom:8px">{{ active_poll['question'] }}</p>
+    <a class="btn btn-sm w-full" href="{{ url_for('poll_detail', pid=active_poll['id']) }}">Голосовать</a>
+</div>
+{% endif %}
+
+{% if upcoming and upcoming|length %}
+<div class="card">
+    <h3>🎤 Скоро в афише</h3>
+    {% for e in upcoming %}
+    <a class="event-mini" href="{{ url_for('event_detail', eid=e['id']) }}">
+        <span class="ic">{{ e['cover_emoji'] or '🎤' }}</span>
+        <div>
+            <div class="t">{{ e['title'] }}</div>
+            <div class="when">{{ e['city'] }} · {{ e['starts_at']|nicedate }}</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="card">
+    <h3>Топ по голосам</h3>
+    <ul class="bare">
+    {% for r in top %}
+        <li>
+            <a href="{{ url_for('review_detail', rid=r['id']) }}"><b>{{ r['artist'] }}</b> — {{ r['title'] }}</a>
+            <span class="score-pill" style="margin-left:6px">★{{ r['net_rating'] }}</span>
+        </li>
+    {% else %}
+        <li class="muted">Ещё нет голосов</li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% if popular_tags %}
+<div class="card">
+    <h3>Популярные теги</h3>
+    <div class="tags">
+    {% for t in popular_tags %}
+        <a class="tag-chip" href="{{ url_for('reviews_list', tag=t['name']) }}">#{{ t['name'] }}</a>
+    {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <h3>Навигация</h3>
+    <ul class="bare">
+        <li><a href="{{ url_for('reviews_list', sort='top') }}">🔥 Топ голосов</a></li>
+        <li><a href="{{ url_for('reviews_list', sort='new') }}">🆕 Свежие</a></li>
+        <li><a href="{{ url_for('playlists_list') }}">🎚 Подборки</a></li>
+        <li><a href="{{ url_for('challenges_list') }}">🎯 Челленджи</a></li>
+        <li><a href="{{ url_for('events_list') }}">🎤 Афиша</a></li>
+        <li><a href="{{ url_for('quotes_list') }}">📜 Цитаты из песен</a></li>
+        <li><a href="{{ url_for('quiz') }}">🧠 Викторина</a></li>
+        {% if current_user %}
+        <li><a href="{{ url_for('recommend') }}">🎁 Рекомендации</a></li>
+        <li><a href="{{ url_for('diary') }}">📓 Дневник</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

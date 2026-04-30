@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Музыкальная викторина{% endblock %}
+{% block content %}
+<h2 class="section-title">🎯 Музыкальная викторина</h2>
+<p class="text-dim mb-16">5 случайных вопросов. Проверьте, насколько хорошо вы знаете музыку.</p>
+
+{% if questions %}
+<form method="post" class="card">
+    {% for q in questions %}
+    <div class="quiz-q">
+        <div class="quiz-q-num">Вопрос {{ loop.index }} из {{ questions|length }}</div>
+        <div class="quiz-q-text">{{ q['question'] }}</div>
+        <input type="hidden" name="qid" value="{{ q['id'] }}">
+        <div class="quiz-options">
+            {% for opt in q['options'] %}
+            <label class="quiz-opt">
+                <input type="radio" name="a_{{ q['id'] }}" value="{{ loop.index0 }}" required>
+                <span>{{ opt }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if current_user %}
+    <button class="btn btn-primary" type="submit">🏁 Завершить викторину</button>
+    {% else %}
+    <p class="text-dim">Чтобы пройти викторину, <a href="{{ url_for('login') }}">войдите</a>.</p>
+    {% endif %}
+</form>
+{% else %}
+<div class="empty"><div class="ic">🎲</div>В викторине пока нет вопросов. Загляните позже.</div>
+{% endif %}
+{% endblock %}

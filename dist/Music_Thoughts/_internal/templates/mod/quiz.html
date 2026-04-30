@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Викторина · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">🎯 Викторина · {{ questions|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card mb-16">
+    <h3 class="lb-title">＋ Новый вопрос</h3>
+    <form method="post">
+        <div class="field">
+            <label>Вопрос *</label>
+            <input type="text" name="question" required maxlength="300" placeholder="В каком году вышел альбом «Kid A»?">
+        </div>
+        <div class="field">
+            <label>Варианты ответа (с новой строки, минимум 2) *</label>
+            <textarea name="options" required style="min-height:120px" placeholder="1998&#10;2000&#10;2001&#10;2003"></textarea>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Номер правильного варианта (с 0)</label>
+                <input type="number" name="correct" min="0" value="0" required>
+            </div>
+            <div class="field" style="flex:2">
+                <label>Объяснение (необязательно)</label>
+                <input type="text" name="explanation" maxlength="300" placeholder="Релиз состоялся 2 октября 2000 года">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">＋ Добавить вопрос</button>
+    </form>
+</div>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>#</th><th>Вопрос</th><th>Варианты</th><th>Прав.</th><th></th></tr></thead>
+        <tbody>
+        {% for q in questions %}
+        <tr>
+            <td class="text-dim">#{{ q['id'] }}</td>
+            <td style="max-width:320px">{{ q['question'] }}</td>
+            <td class="text-dim small" style="max-width:320px">{{ q['options'][:200] }}</td>
+            <td><span class="lb-pill accent">№{{ q['correct'] }}</span></td>
+            <td>
+                <form method="post" action="{{ url_for('mod_quiz_delete', qid=q['id']) }}" onsubmit="return confirm('Удалить?')">
+                    <button class="btn btn-sm btn-danger" type="submit">×</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-dim">— вопросов нет —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

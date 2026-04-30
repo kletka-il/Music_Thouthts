@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block title %}{{ r['artist'] }} — {{ r['title'] }}{% endblock %}
+{% block content %}
+<article>
+    <div class="review-head">
+        <div class="cover-big">
+            {% if r['cover_url'] %}<img src="{{ r['cover_url'] }}" alt="">{% else %}♪{% endif %}
+        </div>
+        <div>
+            <h1 class="review-title">{{ r['artist'] }} — {{ r['title'] }}</h1>
+            <div class="review-sub">
+                {{ r['author_emoji'] }} <a href="{{ url_for('profile', username=r['author']) }}">{{ r['author'] }}</a>
+                · {{ r['created_at']|nicedate }} · 👀 {{ r['views'] }}
+                {% if r['is_draft'] %}· <span class="role-badge" style="background:var(--bad);color:#fff">черновик</span>{% endif %}
+                {% if r['is_hidden'] %}· <span class="role-badge" style="background:var(--bad);color:#fff">скрыта</span>{% endif %}
+            </div>
+            <div class="review-meta-line">
+                <span class="score-pill {% if r['score']<6 %}lo{% endif %}">{{ r['score'] }}/10</span>
+                {% if r['mood'] %}<span class="mood-pill">{{ r['mood']|mood_ru }}</span>{% endif %}
+                {% if r['genre'] %}<span class="tag-chip">{{ r['genre'] }}</span>{% endif %}
+                {% if r['year'] %}<span class="tag-chip">{{ r['year'] }}</span>{% endif %}
+                {% if r['is_featured'] %}<span class="mood-pill" style="background:rgba(217,155,28,.15);color:var(--gold)">★ редакция</span>{% endif %}
+            </div>
+            {% if tags %}
+            <div class="tags mb-12">
+                {% for t in tags %}<a class="tag-chip" href="{{ url_for('reviews_list', tag=t) }}">#{{ t }}</a>{% endfor %}
+            </div>
+            {% endif %}
+            <div class="review-actions">
+                {% if current_user %}
+                <form method="post" action="{{ url_for('review_rate', rid=r['id']) }}" class="vote-form">
+                    <input type="hidden" name="value" value="1">
+                    <button class="btn vote-up {% if user_rating==1 %}is-active{% endif %}">👍 +1</button>
+                </form>
+                <form method="post" action="{{ url_for('review_rate', rid=r['id']) }}" class="vote-form">
+                    <input type="hidden" name="value" value="-1">
+                    <button class="btn vote-down {% if user_rating==-1 %}is-active{% endif %}">👎 −1</button>
+                </form>
+                <form method="post" action="{{ url_for('bookmark_toggle', rid=r['id']) }}">
+                    <button class="btn">{{ '🔖 В закладках' if bookmarked else '☆ В закладки' }}</button>
+                </form>
+                {% endif %}
+                {% if r['listen_url'] %}
+                <a class="btn btn-primary" href="{{ r['listen_url'] }}"
+                   data-embed="{{ r['listen_url']|embed_url }}"
+                   data-listen="{{ r['listen_url'] }}"
+                   data-title="{{ r['artist'] }} — {{ r['title'] }}">🎧 Слушать</a>
+                {% endif %}
+                <span class="btn btn-ghost">Голосов: {{ rating_count }} · {{ net_rating }}</span>
+            </div>
+
+            {% if current_user and (current_user['role']=='moderator' or is_owner) %}
+            <div class="row gap-8 mt-8">
+                <a class="btn btn-sm" href="{{ url_for('review_edit', rid=r['id']) }}">✎ Редактировать</a>
+                <form method="post" action="{{ url_for('review_delete', rid=r['id']) }}" onsubmit="return confirm('Удалить рецензию?')">
+                    <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+                </form>
+                {% if current_user['role']=='moderator' %}
+                <form method="post" action="{{ url_for('mod_toggle_hidden', rid=r['id']) }}">
+                    <button class="btn btn-sm" type="submit">{{ 'Показать' if r['is_hidden'] else 'Скрыть' }}</button>
+                </form>
+                <form method="post" action="{{ url_for('mod_toggle_featured', rid=r['id']) }}">
+                    <button class="btn btn-sm" type="submit">{{ 'Снять с витрины' if r['is_featured'] else 'На витрину' }}</button>
+                </form>
+                <form method="post" action="{{ url_for('mod_set_sotd', rid=r['id']) }}">
+                    <input type="hidden" name="note" value="Выбор редакции">
+                    <button class="btn btn-sm" type="submit">⭐ В альбом дня</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="track-rating" class="track-rate-card">
+        <div class="trc-head">
+            <div class="trc-title">⭐ Оценка трека</div>
+            <div class="trc-avg">
+                {% if track_count %}
+                    <span class="trc-num">{{ '%.1f'|format(track_avg) }}</span>
+                    <span class="trc-of">/10</span>
+                    <span class="trc-count">· {{ track_count }} {{ 'голос' if track_count == 1 else ('голоса' if track_count < 5 else 'голосов') }}</span>
+                {% else %}
+                    <span class="trc-empty">Пока нет оценок</span>
+                {% endif %}
+            </div>
+        </div>
+        {% if track_count %}
+        <div class="trc-bar"><div class="trc-bar-fill" style="width: {{ (track_avg or 0) * 10 }}%"></div></div>
+        {% endif %}
+        {% if current_user %}
+        <form method="post" action="{{ url_for('track_score', rid=r['id']) }}" class="trc-form">
+            <div class="trc-dots">
+                {% for n in range(1, 11) %}
+                <button type="submit" name="value" value="{{ n }}"
+                        class="trc-dot {% if user_track_score and n <= user_track_score %}filled{% endif %}"
+                        title="{{ n }}/10">{{ n }}</button>
+                {% endfor %}
+            </div>
+            <div class="trc-foot">
+                {% if user_track_score %}
+                    <span class="trc-mine">Ваша оценка: <b>{{ user_track_score }}/10</b></span>
+                    <button class="btn btn-sm btn-ghost" type="submit" name="value" value="0">Сбросить</button>
+                {% else %}
+                    <span class="trc-mine text-dim">Кликните цифру, чтобы оценить</span>
+                {% endif %}
+            </div>
+        </form>
+        {% else %}
+        <div class="trc-foot text-dim">
+            <a href="{{ url_for('login') }}">Войдите</a>, чтобы оценить трек.
+        </div>
+        {% endif %}
+    </div>
+
+    {% if embed %}
+    <div class="embed-frame">
+        <iframe src="{{ embed }}" allow="autoplay; encrypted-media" loading="lazy" allowfullscreen></iframe>
+    </div>
+    {% endif %}
+
+    <div class="review-body">
+        {% for para in r['body'].split('\n\n') %}
+            <p>{{ para }}</p>
+        {% endfor %}
+    </div>
+</article>
+
+<div class="comments">
+    <h2 class="section-title">💬 Комментарии · {{ comments|length }}</h2>
+    {% for c in comments %}
+    <div class="comment {% if c['parent_id'] %}is-reply{% endif %}" id="c{{ c['id'] }}">
+        <div class="head">
+            <span>{{ c['emoji'] }}</span>
+            <a class="author" href="{{ url_for('profile', username=c['author']) }}">{{ c['author'] }}</a>
+            <span class="role-badge {% if c['author_role']=='moderator' %}mod{% endif %}">{{ c['author_role']|role_ru }}</span>
+            · {{ c['created_at']|ago }}
+        </div>
+        <div>{{ c['body'] }}</div>
+        <div class="row gap-8 mt-8">
+            {% if current_user %}
+            <form method="post" action="{{ url_for('comment_rate', cid=c['id']) }}" style="display:inline">
+                <input type="hidden" name="value" value="1">
+                <button class="btn btn-sm btn-ghost {% if user_comment_votes[c['id']] == 1 %}is-active{% endif %}" type="submit">👍 {{ c['net'] }}</button>
+            </form>
+            <button class="btn btn-sm btn-ghost" type="button" onclick="document.getElementById('reply-form-{{ c['id'] }}').style.display='block'">↩ Ответить</button>
+            {% endif %}
+            {% if current_user and (current_user['role']=='moderator' or current_user['id']==c['author_id']) %}
+            <form method="post" action="{{ url_for('comment_delete', cid=c['id']) }}" style="display:inline">
+                <button class="btn btn-sm btn-danger" type="submit">Удалить</button>
+            </form>
+            {% endif %}
+            {% if current_user %}
+            <form method="post" action="{{ url_for('report') }}" onsubmit="return confirm('Пожаловаться?')" style="display:inline">
+                <input type="hidden" name="target_type" value="comment">
+                <input type="hidden" name="target_id" value="{{ c['id'] }}">
+                <input type="hidden" name="reason" value="нарушение правил">
+                <button class="btn btn-sm btn-ghost" type="submit">⚠</button>
+            </form>
+            {% endif %}
+        </div>
+        {% if current_user %}
+        <form method="post" action="{{ url_for('comment_add', rid=r['id']) }}" id="reply-form-{{ c['id'] }}" style="display:none;margin-top:8px">
+            <input type="hidden" name="parent_id" value="{{ c['id'] }}">
+            <textarea name="body" placeholder="Ответ {{ c['author'] }}…" required style="min-height:60px"></textarea>
+            <button class="btn btn-primary btn-sm mt-8" type="submit">Отправить ответ</button>
+        </form>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="empty"><div class="ic">💬</div>Будьте первым, кто оставит комментарий.</div>
+    {% endfor %}
+
+    {% if current_user %}
+    <form method="post" action="{{ url_for('comment_add', rid=r['id']) }}" class="mt-16">
+        <textarea name="body" placeholder="Ваш комментарий…" required></textarea>
+        <button class="btn btn-primary mt-8" type="submit">Отправить</button>
+    </form>
+    {% else %}
+    <p class="text-dim mt-12">Чтобы оставить комментарий, <a href="{{ url_for('login') }}">войдите</a>.</p>
+    {% endif %}
+</div>
+
+{% if similar %}
+<h3 class="section-title mt-24">🔗 Похожие рецензии</h3>
+{% for r in similar %}
+    {% include "_review_card.html" %}
+{% endfor %}
+{% endif %}
+
+{% if current_user %}
+<details class="card mt-16">
+    <summary class="text-dim" style="cursor:pointer">⚠ Пожаловаться на рецензию</summary>
+    <form method="post" action="{{ url_for('report') }}" class="mt-8">
+        <input type="hidden" name="target_type" value="review">
+        <input type="hidden" name="target_id" value="{{ r['id'] }}">
+        <input type="text" name="reason" placeholder="Причина (спам, оскорбление, фейк…)" required>
+        <button class="btn btn-danger mt-8" type="submit">Отправить жалобу</button>
+    </form>
+</details>
+{% endif %}
+{% endblock %}

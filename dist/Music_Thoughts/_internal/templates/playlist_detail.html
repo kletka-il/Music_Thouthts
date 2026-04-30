@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ p['title'] }} · подборка{% endblock %}
+{% block content %}
+<div class="playlist-head">
+    <div class="pl-cover-big">{{ p['cover_emoji'] or '🎶' }}</div>
+    <div>
+        <div class="text-dim small">Подборка</div>
+        <h1 class="review-title">{{ p['title'] }}</h1>
+        <div class="review-sub">
+            {{ p['owner_emoji'] }} <a href="{{ url_for('profile', username=p['owner']) }}">{{ p['owner'] }}</a>
+            · {{ items|length }} рец.
+            · {{ p['created_at']|nicedate }}
+            {% if not p['is_public'] %}· <span class="role-badge" style="background:var(--bad);color:#fff">приватная</span>{% endif %}
+        </div>
+        {% if p['description'] %}<p class="text-dim mt-8">{{ p['description'] }}</p>{% endif %}
+        {% if current_user and (current_user['id']==p['owner_id'] or current_user['role']=='moderator') %}
+        <div class="row gap-8 mt-12">
+            <a class="btn btn-sm" href="{{ url_for('playlist_edit', pid=p['id']) }}">✎ Редактировать</a>
+            <form method="post" action="{{ url_for('playlist_delete', pid=p['id']) }}" onsubmit="return confirm('Удалить подборку?')">
+                <button class="btn btn-sm btn-danger" type="submit">Удалить</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<h3 class="section-title mt-16">Рецензии в подборке</h3>
+{% for it in items %}
+<div class="pl-item">
+    <span class="pl-pos">{{ loop.index }}</span>
+    <div class="pl-cover-sm">{% if it['cover_url'] %}<img src="{{ it['cover_url'] }}" alt="">{% else %}♪{% endif %}</div>
+    <div class="pl-item-meta">
+        <a class="pl-item-title" href="{{ url_for('review_detail', rid=it['review_id']) }}">{{ it['artist'] }} — {{ it['title'] }}</a>
+        <div class="text-dim small">{{ it['r_author'] }} · {{ it['genre'] or '—' }} · {{ it['score'] }}/10</div>
+    </div>
+    {% if it['listen_url'] %}
+    <a class="btn btn-sm btn-primary" href="{{ it['listen_url'] }}"
+       data-embed="{{ it['listen_url']|embed_url }}"
+       data-listen="{{ it['listen_url'] }}"
+       data-title="{{ it['artist'] }} — {{ it['title'] }}"
+       title="Слушать прямо здесь">▶</a>
+    {% endif %}
+    {% if current_user and (current_user['id']==p['owner_id'] or current_user['role']=='moderator') %}
+    <form method="post" action="{{ url_for('playlist_remove_review', pid=p['id'], rid=it['review_id']) }}">
+        <button class="btn btn-sm btn-ghost" type="submit" title="Убрать">✕</button>
+    </form>
+    {% endif %}
+</div>
+{% else %}
+<div class="empty"><div class="ic">🪐</div>Подборка пока пуста. Откройте любую рецензию и добавьте её сюда.</div>
+{% endfor %}
+{% endblock %}

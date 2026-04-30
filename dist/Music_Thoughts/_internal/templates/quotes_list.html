@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Цитаты из песен{% endblock %}
+{% block content %}
+<h2 class="section-title">📜 Стена цитат</h2>
+<p class="text-dim mb-16">Любимые строки из песен, которые сообщество хочет запомнить.</p>
+
+{% if current_user %}
+<div class="card mb-16">
+    <h3 class="lb-title">＋ Поделиться цитатой</h3>
+    <form method="post" action="{{ url_for('quote_add') }}">
+        <div class="field">
+            <label>Текст цитаты *</label>
+            <textarea name="text" required maxlength="300" placeholder="Строка, две — то, что трогает"></textarea>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Исполнитель</label>
+                <input type="text" name="artist" maxlength="100">
+            </div>
+            <div class="field">
+                <label>Песня</label>
+                <input type="text" name="song" maxlength="100">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">📜 Добавить</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="quotes-wall">
+    {% for q in quotes %}
+    <div class="lyric-quote">
+        <div class="q-text">«{{ q['text'] }}»</div>
+        <div class="q-attrib text-dim small">
+            {% if q['artist'] or q['song'] %}
+            — {{ q['artist'] }}{% if q['song'] %}, «{{ q['song'] }}»{% endif %}
+            {% endif %}
+            {% if q['submitter'] %}· прислал(а) <a href="{{ url_for('profile', username=q['submitter']) }}">{{ q['submitter'] }}</a>{% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="empty"><div class="ic">🪶</div>Стена пустая. Поделитесь первой цитатой!</div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ e['title'] }}{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="text-dim small">🎤 Событие · {{ e['starts_at']|nicedate }}</div>
+    <h1 class="review-title">{{ e['title'] }}</h1>
+    <div class="review-sub">
+        {% if e['city'] %}🏙 {{ e['city'] }} · {% endif %}
+        {% if e['venue'] %}📍 {{ e['venue'] }} · {% endif %}
+        👥 {{ attendees|length }} идёт
+    </div>
+    {% if e['description'] %}
+    <div class="review-body mt-12">
+        {% for para in e['description'].split('\n\n') %}<p>{{ para }}</p>{% endfor %}
+    </div>
+    {% endif %}
+    {% if e['link'] %}
+    <a class="btn btn-primary mt-12" href="{{ e['link'] }}" target="_blank" rel="noreferrer">🔗 Подробнее на сайте организатора</a>
+    {% endif %}
+
+    {% if current_user %}
+    <div class="row gap-8 mt-16">
+        {% if not going %}
+        <form method="post" action="{{ url_for('event_attend', eid=e['id']) }}">
+            <button class="btn btn-primary" type="submit">✓ Я иду!</button>
+        </form>
+        {% else %}
+        <form method="post" action="{{ url_for('event_leave', eid=e['id']) }}">
+            <button class="btn btn-danger" type="submit">✕ Не пойду</button>
+        </form>
+        <span class="role-badge" style="background:var(--accent);color:#fff">вы идёте</span>
+        {% endif %}
+    </div>
+    {% else %}
+    <p class="text-dim mt-12">Чтобы записаться, <a href="{{ url_for('login') }}">войдите</a>.</p>
+    {% endif %}
+</div>
+
+<h3 class="section-title mt-16">Кто идёт</h3>
+<div class="card">
+    {% if attendees %}
+    <div class="att-list">
+        {% for a in attendees %}
+        <a class="att-chip" href="{{ url_for('profile', username=a['username']) }}">
+            <span>{{ a['avatar_emoji'] }}</span>
+            <span>{{ a['username'] }}</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty"><div class="ic">🎭</div>Будьте первым — записывайтесь!</div>
+    {% endif %}
+</div>
+{% endblock %}

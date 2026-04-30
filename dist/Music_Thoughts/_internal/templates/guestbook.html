@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Гостевая книга{% endblock %}
+{% block content %}
+<h2 class="section-title">📖 Гостевая книга</h2>
+
+<div class="card mb-16">
+    <p class="text-dim">Оставьте короткое впечатление от сайта — для будущих посетителей.</p>
+    <form method="post">
+        {% if not current_user %}
+        <div class="field">
+            <label>Имя</label>
+            <input type="text" name="author_name" maxlength="40" placeholder="Аноним">
+        </div>
+        {% endif %}
+        <div class="field">
+            <label>Сообщение</label>
+            <textarea name="body" required maxlength="500" placeholder="Что думаете о Music_Thoughts? Что бы хотели увидеть в подборках?"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">📜 Оставить запись</button>
+    </form>
+</div>
+
+<h3 class="section-title">Свежие записи · {{ entries|length }}</h3>
+<div class="card">
+    {% for e in entries %}
+    <div class="notif">
+        <span class="kind">📜 запись</span>
+        <div class="text">
+            <b>{{ e['author_name'] }}</b>
+            <div style="margin-top:4px;white-space:pre-wrap">{{ e['body'] }}</div>
+        </div>
+        <div class="when">
+            {{ e['created_at']|ago }}
+            {% if current_user and current_user['role']=='moderator' %}
+            <form method="post" action="{{ url_for('mod_guestbook_toggle', gid=e['id']) }}" style="display:inline;margin-left:6px">
+                <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Скрыть запись?')">скрыть</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="empty"><div class="ic">📔</div>Записей пока нет — будьте первым!</div>
+    {% endfor %}
+</div>
+{% endblock %}

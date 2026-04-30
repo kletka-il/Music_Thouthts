@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Лидеры{% endblock %}
+{% block content %}
+<h2 class="section-title">🏆 Зал славы</h2>
+
+<div class="lb-grid">
+    <div class="card">
+        <h3 class="lb-title">⭐ Топ авторов рецензий</h3>
+        <p class="text-dim">По суммарной карме всех опубликованных рецензий.</p>
+        {% for u in top_authors %}
+        <div class="lb-row">
+            <span class="lb-rank {% if loop.index==1 %}gold{% elif loop.index==2 %}silver{% elif loop.index==3 %}bronze{% endif %}">{{ loop.index }}</span>
+            <span class="lb-emoji">{{ u['avatar_emoji'] }}</span>
+            <a class="lb-name" href="{{ url_for('profile', username=u['username']) }}">{{ u['username'] }}</a>
+            <span class="text-dim">{{ u['n'] }} рец.</span>
+            <span class="lb-pill accent">{{ u['karma'] }} ★</span>
+        </div>
+        {% else %}
+        <div class="empty"><div class="ic">📜</div>Пока никто не написал ни одной рецензии.</div>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h3 class="lb-title">💬 Самые активные комментаторы</h3>
+        <p class="text-dim">Кто чаще всех ввязывается в обсуждения.</p>
+        {% for u in top_commenters %}
+        <div class="lb-row">
+            <span class="lb-rank {% if loop.index==1 %}gold{% elif loop.index==2 %}silver{% elif loop.index==3 %}bronze{% endif %}">{{ loop.index }}</span>
+            <span class="lb-emoji">{{ u['avatar_emoji'] }}</span>
+            <a class="lb-name" href="{{ url_for('profile', username=u['username']) }}">{{ u['username'] }}</a>
+            <span class="lb-pill">{{ u['n'] }} 💬</span>
+        </div>
+        {% else %}
+        <div class="empty"><div class="ic">💭</div>Тишина в чате.</div>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h3 class="lb-title">👥 Любимцы публики</h3>
+        <p class="text-dim">У кого больше всех подписчиков.</p>
+        {% for u in most_followed %}
+        <div class="lb-row">
+            <span class="lb-rank {% if loop.index==1 %}gold{% elif loop.index==2 %}silver{% elif loop.index==3 %}bronze{% endif %}">{{ loop.index }}</span>
+            <span class="lb-emoji">{{ u['avatar_emoji'] }}</span>
+            <a class="lb-name" href="{{ url_for('profile', username=u['username']) }}">{{ u['username'] }}</a>
+            <span class="lb-pill">{{ u['n'] }} подп.</span>
+        </div>
+        {% else %}
+        <div class="empty"><div class="ic">🌱</div>Подписки ещё не пошли.</div>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h3 class="lb-title">🔥 Короли стриков</h3>
+        <p class="text-dim">Кто заходит каждый день и слушает музыку без перерыва.</p>
+        {% for u in streak_kings %}
+        <div class="lb-row">
+            <span class="lb-rank {% if loop.index==1 %}gold{% elif loop.index==2 %}silver{% elif loop.index==3 %}bronze{% endif %}">{{ loop.index }}</span>
+            <span class="lb-emoji">{{ u['avatar_emoji'] }}</span>
+            <a class="lb-name" href="{{ url_for('profile', username=u['username']) }}">{{ u['username'] }}</a>
+            <span class="lb-pill" style="background:rgba(232,105,56,.18);color:#ff7a3a">🔥 {{ u['streak_days'] }} дн.</span>
+        </div>
+        {% else %}
+        <div class="empty"><div class="ic">🌬</div>Стрики пока никто не накопил.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

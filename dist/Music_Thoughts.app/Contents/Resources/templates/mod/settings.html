@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Настройки сайта{% endblock %}
+{% block content %}
+<h2 class="section-title">⚙ Настройки сайта
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card mb-16">
+    <form method="post">
+        <div class="field">
+            <label>Слоган сайта</label>
+            <input type="text" name="site_tagline" value="{{ tagline }}" placeholder="Музыка, которую стоит услышать">
+        </div>
+        <div class="field">
+            <label>Цитата дня (показывается на главной)</label>
+            <input type="text" name="site_quote" value="{{ quote or '' }}" placeholder="Без музыки жизнь была бы ошибкой. — Ницше">
+        </div>
+        <div class="field">
+            <label>Бегущий баннер</label>
+            <input type="text" name="site_banner" value="{{ banner }}" placeholder="Например: На выходных розыгрыш плейлиста!">
+        </div>
+        <div class="field">
+            <label>Памятка для модераторов</label>
+            <input type="text" name="moderator_motd" value="{{ motd }}" placeholder="Что не забыть проверить сегодня">
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Регистрация</label>
+                <select name="registration_open">
+                    <option value="1" {% if registration_open=='1' %}selected{% endif %}>открыта</option>
+                    <option value="0" {% if registration_open=='0' %}selected{% endif %}>закрыта</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Гостевая книга</label>
+                <select name="guestbook_open">
+                    <option value="1" {% if guestbook_open=='1' %}selected{% endif %}>открыта</option>
+                    <option value="0" {% if guestbook_open=='0' %}selected{% endif %}>закрыта</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">💾 Сохранить настройки</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3 class="lb-title">🚫 Фильтр слов</h3>
+    <p class="text-dim">Эти слова автоматически заменяются звёздочками в рецензиях, комментариях, гостевой и сообщениях.</p>
+    <form method="post" action="{{ url_for('mod_words_add') }}" class="row gap-8">
+        <input type="text" name="word" placeholder="Новое запрещённое слово" required style="flex:1">
+        <button class="btn btn-danger" type="submit">＋ Добавить</button>
+    </form>
+    <div class="row mt-12" style="flex-wrap:wrap;gap:6px">
+        {% for w in words %}
+        <span class="lb-pill" style="display:inline-flex;gap:8px;align-items:center;padding:6px 10px">
+            {{ w['word'] }}
+            <form method="post" action="{{ url_for('mod_words_delete', wid=w['id']) }}" style="display:inline">
+                <button class="btn btn-sm btn-ghost" type="submit" style="padding:0 6px;line-height:1">×</button>
+            </form>
+        </span>
+        {% else %}
+        <span class="text-dim">— список пуст —</span>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

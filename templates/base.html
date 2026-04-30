@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="{{ current_user['theme'] if current_user else 'dark' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %} · Music_Thoughts</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="alternate" type="application/rss+xml" title="Music_Thoughts RSS" href="{{ url_for('rss') }}">
+</head>
+<body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="logo-orb"></span>
+            <span class="brand-name">Music_Thoughts</span>
+        </a>
+
+        <form class="search-box" action="{{ url_for('search') }}" method="get">
+            <span class="ic">🔎</span>
+            <input type="text" name="q" placeholder="Найти артиста, альбом, тег…" value="{{ request.args.get('q','') }}">
+        </form>
+
+        <nav class="nav">
+            <a href="{{ url_for('reviews_list') }}">Рецензии</a>
+            <a href="{{ url_for('playlists_list') }}">Подборки</a>
+            <a href="{{ url_for('events_list') }}">Афиша</a>
+            <a href="{{ url_for('challenges_list') }}">Челленджи</a>
+            <a href="{{ url_for('leaderboard') }}">Топ</a>
+            <span class="nav-more">
+                <a class="dropdown-trigger" href="#" tabindex="0">Ещё ▾</a>
+                <span class="nav-more-list">
+                    <a href="{{ url_for('discover') }}">🎲 Случайная</a>
+                    <a href="{{ url_for('quotes_list') }}">📜 Цитаты</a>
+                    <a href="{{ url_for('quiz') }}">🧠 Викторина</a>
+                    <a href="{{ url_for('polls_list') }}">📊 Опросы</a>
+                    {% if current_user %}
+                        <a href="{{ url_for('feed') }}">📡 Лента</a>
+                        <a href="{{ url_for('diary') }}">📓 Дневник</a>
+                        <a href="{{ url_for('recommend') }}">🎁 Рекомендации</a>
+                        <a href="{{ url_for('dm_inbox') }}">✉️ Сообщения{% if unread_dm %} ({{ unread_dm }}){% endif %}</a>
+                        <a href="{{ url_for('my_bookmarks') }}">🔖 Закладки</a>
+                    {% endif %}
+                    <a href="{{ url_for('guestbook') }}">📖 Гостевая</a>
+                </span>
+            </span>
+        </nav>
+
+        {% if current_user %}
+            <a class="bell" href="{{ url_for('notifications') }}" title="Уведомления">
+                🔔
+                {% if unread_count %}<span class="dot">{{ unread_count }}</span>{% endif %}
+            </a>
+            {% if current_user['role'] in ('reviewer','moderator') %}
+                <a class="btn btn-primary btn-sm" href="{{ url_for('review_new') }}">+ Рецензия</a>
+            {% endif %}
+            {% if current_user['role'] == 'moderator' %}
+                <a class="btn btn-sm" href="{{ url_for('mod_console') }}" title="Консоль модератора">🛡</a>
+            {% endif %}
+            <a class="user-chip" href="{{ url_for('profile', username=current_user['username']) }}">
+                <span class="em">{{ current_user['avatar_emoji'] }}</span>
+                <span>{{ current_user['username'] }}</span>
+                {% if current_user['streak_days'] and current_user['streak_days'] > 1 %}
+                    <span class="streak-badge" title="Дней подряд на сайте">🔥 {{ current_user['streak_days'] }}</span>
+                {% endif %}
+            </a>
+            <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Выйти</a>
+        {% else %}
+            <a class="btn btn-sm" href="{{ url_for('login') }}">Войти</a>
+            <a class="btn btn-primary btn-sm" href="{{ url_for('register') }}">Регистрация</a>
+        {% endif %}
+    </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-stack">
+        {% for cat, m in messages %}
+        <div class="flash {{ cat }}">{{ m }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+
+{% block hero %}{% endblock %}
+
+<div class="layout">
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
+    <aside class="side">
+        {% block side %}
+        <div class="card">
+            <h3>В сообществе</h3>
+            <div class="kv"><b>Посещений</b><span>{{ visits }}</span></div>
+            {% if current_user and current_user['streak_days'] %}
+            <div class="kv"><b>Серия</b><span class="streak-badge">🔥 {{ current_user['streak_days'] }}</span></div>
+            {% endif %}
+        </div>
+        <div class="card">
+            <h3>Навигация</h3>
+            <ul class="bare">
+                <li><a href="{{ url_for('reviews_list', sort='top') }}">🔥 Топ голосов</a></li>
+                <li><a href="{{ url_for('reviews_list', sort='new') }}">🆕 Свежие</a></li>
+                <li><a href="{{ url_for('reviews_list', sort='views') }}">👀 Популярные</a></li>
+                <li><a href="{{ url_for('discover') }}">🎲 Случайная</a></li>
+                <li><a href="{{ url_for('leaderboard') }}">🏆 Лидерборд</a></li>
+                <li><a href="{{ url_for('playlists_list') }}">🎚 Подборки</a></li>
+                <li><a href="{{ url_for('events_list') }}">🎤 Афиша</a></li>
+                <li><a href="{{ url_for('challenges_list') }}">🎯 Челленджи</a></li>
+                <li><a href="{{ url_for('quiz') }}">🧠 Викторина</a></li>
+                {% if current_user %}
+                <li><a href="{{ url_for('my_bookmarks') }}">🔖 Мои закладки</a></li>
+                <li><a href="{{ url_for('feed') }}">📡 Лента подписок</a></li>
+                <li><a href="{{ url_for('diary') }}">📓 Дневник</a></li>
+                <li><a href="{{ url_for('dm_inbox') }}">✉️ Сообщения{% if unread_dm %} ({{ unread_dm }}){% endif %}</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('rss') }}">RSS-лента</a></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>О проекте</h3>
+            <p class="text-dim" style="font-size:13px;margin:0">
+                {{ site_tagline or 'Площадка для разговора о музыке.' }}
+            </p>
+        </div>
+        {% endblock %}
+    </aside>
+</div>
+
+<footer class="footer">
+    <span>© {{ now_year }} Music_Thoughts</span>
+    <span class="muted">Flask · pywebview · ❤ для русскоязычной сцены</span>
+</footer>
+
+<div id="player-modal" class="player-modal" aria-hidden="true">
+    <div class="player-modal-backdrop" data-close></div>
+    <div class="player-modal-card" role="dialog" aria-modal="true">
+        <div class="player-modal-head">
+            <span class="player-modal-title" id="player-modal-title">Плеер</span>
+            <div class="player-modal-actions">
+                <a class="btn btn-sm btn-ghost" id="player-modal-yt" href="#" target="_blank" rel="noreferrer">↗ YouTube</a>
+                <button class="btn btn-sm" data-close type="button">✕</button>
+            </div>
+        </div>
+        <div class="player-modal-frame">
+            <iframe id="player-modal-iframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="player-modal-fallback" id="player-modal-fallback">
+                <div class="pmf-ic">🎧</div>
+                <div class="pmf-text">К этому треку не привязана прямая ссылка на видео.<br>
+                    Откройте поиск на YouTube, чтобы послушать.</div>
+                <a class="btn btn-primary" id="player-modal-search" href="#" target="_blank" rel="noreferrer">↗ Найти на YouTube</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+setTimeout(function(){
+    document.querySelectorAll('.flash').forEach(function(el){
+        el.style.transition = 'opacity .4s, transform .4s';
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(20px)';
+        setTimeout(function(){ el.remove(); }, 400);
+    });
+}, 4000);
+
+(function(){
+    var modal = document.getElementById('player-modal');
+    if (!modal) return;
+    var iframe = document.getElementById('player-modal-iframe');
+    var fallback = document.getElementById('player-modal-fallback');
+    var fallbackLink = document.getElementById('player-modal-search');
+    var titleEl = document.getElementById('player-modal-title');
+    var ytLink = document.getElementById('player-modal-yt');
+
+    function openPlayer(embed, title, listen){
+        titleEl.textContent = title || 'Плеер';
+        if (embed) {
+            iframe.style.display = '';
+            fallback.style.display = 'none';
+            iframe.src = embed + (embed.indexOf('?')>-1 ? '&' : '?') + 'autoplay=1';
+        } else {
+            iframe.style.display = 'none';
+            iframe.src = '';
+            fallback.style.display = 'flex';
+            var q = encodeURIComponent(title || '');
+            fallbackLink.href = listen || ('https://www.youtube.com/results?search_query=' + q);
+        }
+        ytLink.href = listen || (title ? 'https://www.youtube.com/results?search_query=' + encodeURIComponent(title) : '#');
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closePlayer(){
+        iframe.src = '';
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    modal.addEventListener('click', function(e){
+        if (e.target.hasAttribute('data-close')) closePlayer();
+    });
+    document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && modal.classList.contains('open')) closePlayer();
+    });
+    document.addEventListener('click', function(e){
+        var t = e.target.closest('[data-embed]');
+        if (!t) return;
+        e.preventDefault();
+        openPlayer(t.getAttribute('data-embed'), t.getAttribute('data-title'), t.getAttribute('data-listen'));
+    });
+})();
+</script>
+</body>
+</html>

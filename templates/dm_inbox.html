@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Сообщения{% endblock %}
+{% block content %}
+<h2 class="section-title">✉ Личные сообщения</h2>
+<p class="text-dim mb-16">Напишите автору рецензии напрямую — кнопка «Написать» есть на каждом профиле.</p>
+
+<div class="card">
+    {% for c in chats %}
+    <a class="dm-row {% if c['unread']>0 %}is-unread{% endif %}" href="{{ url_for('dm_chat', username=c['other']) }}">
+        <span class="dm-emoji">{{ c['emoji'] }}</span>
+        <div class="dm-meta">
+            <div class="dm-name">{{ c['other'] }}{% if c['unread']>0 %} <span class="dm-badge">{{ c['unread'] }}</span>{% endif %}</div>
+            <div class="dm-snippet">{{ c['last_body']|truncate(80) }}</div>
+        </div>
+        <div class="dm-when">{{ c['last_at']|ago }}</div>
+    </a>
+    {% else %}
+    <div class="empty"><div class="ic">📭</div>Переписок ещё нет. Перейдите в чей-нибудь профиль и нажмите «Написать».</div>
+    {% endfor %}
+</div>
+{% endblock %}

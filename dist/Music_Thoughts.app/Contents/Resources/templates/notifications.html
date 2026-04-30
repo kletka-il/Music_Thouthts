@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Уведомления{% endblock %}
+{% block content %}
+<h2 class="section-title">🔔 Уведомления</h2>
+<div class="card">
+    {% if items %}
+        {% for n in items %}
+        <div class="notif {% if not n['is_read'] %}is-unread{% endif %}">
+            <span class="kind">{{ n['kind']|kind_ru }}</span>
+            <div class="text">
+                {% if n['link'] %}
+                <a href="{{ n['link'] }}">{{ n['body'] }}</a>
+                {% else %}
+                {{ n['body'] }}
+                {% endif %}
+            </div>
+            <div class="when">{{ n['created_at']|ago }}</div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="empty"><div class="ic">🔔</div>Здесь будут уведомления о новых рецензиях, комментариях и подписчиках.</div>
+    {% endif %}
+</div>
+{% endblock %}

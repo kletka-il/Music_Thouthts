@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}{{ profile['username'] }}{% endblock %}
+{% block content %}
+<div class="profile-head">
+    <div class="profile-avatar">{{ profile['avatar_emoji'] }}</div>
+    <div class="profile-name">
+        <h1>
+            {{ profile['username'] }}
+            <span class="role-badge {% if profile['role']=='moderator' %}mod{% endif %}">{{ profile['role']|role_ru }}</span>
+            {% if profile['is_banned'] %}<span class="role-badge" style="background:var(--bad);color:#fff">заблокирован</span>{% endif %}
+            {% if profile['streak_days'] and profile['streak_days'] > 1 %}<span class="streak-badge">🔥 {{ profile['streak_days'] }} дн</span>{% endif %}
+        </h1>
+        <p class="text-dim mb-0">{{ profile['bio'] or 'Нет описания.' }}</p>
+        {% if profile['favorite_genre'] %}<p class="text-dim mb-0" style="font-size:13px">Любимый жанр: <b>{{ profile['favorite_genre'] }}</b></p>{% endif %}
+        {% if profile['listening_now'] %}
+        <p class="text-dim mb-0 mt-8" style="font-size:13px">
+            <span class="waveform"><span></span><span></span><span></span><span></span><span></span></span>
+            Сейчас слушает: <b>{{ profile['listening_now'] }}</b>
+        </p>
+        {% endif %}
+        <div class="profile-stats">
+            <span><b>{{ reviews|length }}</b> рецензий</span>
+            <span><b>{{ follower_count }}</b> подписчиков</span>
+            <span><b>{{ following_count }}</b> подписок</span>
+            <span class="muted">на сайте с {{ profile['created_at']|nicedateonly }}</span>
+        </div>
+    </div>
+    <div class="flex flex-col gap-8">
+        {% if current_user and current_user['id']==profile['id'] %}
+            <a class="btn" href="{{ url_for('profile_edit') }}">✎ Редактировать</a>
+            <a class="btn btn-sm" href="{{ url_for('password_change') }}">🔑 Пароль</a>
+        {% elif current_user %}
+            {% if following %}
+            <form method="post" action="{{ url_for('unfollow', username=profile['username']) }}">
+                <button class="btn">Отписаться</button>
+            </form>
+            {% else %}
+            <form method="post" action="{{ url_for('follow', username=profile['username']) }}">
+                <button class="btn btn-primary">+ Подписаться</button>
+            </form>
+            {% endif %}
+            <a class="btn btn-sm" href="{{ url_for('dm_chat', username=profile['username']) }}">✉️ Написать</a>
+        {% endif %}
+    </div>
+</div>
+
+{% if profile['spotify_link'] %}
+<div class="card mb-12">
+    <h3>🎧 Профиль в стриминге</h3>
+    <a href="{{ profile['spotify_link'] }}" target="_blank" rel="noreferrer">{{ profile['spotify_link'] }}</a>
+</div>
+{% endif %}
+
+<div class="card mb-12">
+    <h3>🏆 Достижения</h3>
+    <div class="achievements">
+        {% set codes = achievements|map(attribute='code')|list %}
+        {% for code, info in ACHIEVEMENT_CATALOG.items() %}
+        {% set unlocked = code in codes %}
+        <div class="ach {% if not unlocked %}locked{% endif %}">
+            <div class="icon">{{ info[2] }}</div>
+            <div class="name">{{ info[0] }}</div>
+            <div class="desc">{{ info[1] }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if playlists %}
+<div class="card mb-12">
+    <h3>🎚 Подборки</h3>
+    <div class="playlist-grid">
+        {% for p in playlists %}
+        <a class="playlist-card" href="{{ url_for('playlist_detail', pid=p['id']) }}">
+            <div class="pl-cover">{{ p['cover_emoji'] or '🎶' }}</div>
+            <div class="pl-title">{{ p['title'] }}</div>
+            <div class="pl-meta">{{ p['n'] }} рецензий · {{ p['created_at']|nicedateonly }}</div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if diary %}
+<div class="card mb-12">
+    <h3>📓 Дневник прослушивания</h3>
+    {% for d in diary %}
+    <div class="diary-entry">
+        <div>
+            <div class="head">{{ d['created_at']|nicedate }} {% if d['mood'] %}· <span class="mood-pill">{{ d['mood']|mood_ru }}</span>{% endif %}</div>
+            <div class="what">{{ d['artist'] }}{% if d['title'] %} — {{ d['title'] }}{% endif %}</div>
+            {% if d['note'] %}<div class="note">{{ d['note'] }}</div>{% endif %}
+        </div>
+        {% if d['rating'] and d['rating'] > 0 %}<div class="stars">★ {{ d['rating'] }}/10</div>{% endif %}
+    </div>
+    {% endfor %}
+    {% if current_user and current_user['id']==profile['id'] %}
+    <a class="btn btn-sm mt-8" href="{{ url_for('diary') }}">Открыть весь дневник →</a>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="card mb-12">
+    <h3>📝 Рецензии · {{ reviews|length }}</h3>
+    {% for r in reviews %}
+    <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+        <a href="{{ url_for('review_detail', rid=r['id']) }}"><b>{{ r['artist'] }} — {{ r['title'] }}</b></a>
+        <span class="score-pill" style="margin-left:6px">{{ r['score'] }}/10</span>
+        {% if r['mood'] %}<span class="mood-pill" style="margin-left:4px">{{ r['mood']|mood_ru }}</span>{% endif %}
+        <div class="text-dim" style="font-size:13px">{{ r['genre'] }} · {{ r['created_at']|nicedate }} · 👍 {{ r['net'] }}</div>
+    </div>
+    {% else %}
+    <div class="empty"><div class="ic">📝</div>Ещё нет публикаций.</div>
+    {% endfor %}
+</div>
+
+{% if comments %}
+<div class="card mb-12">
+    <h3>💬 Последние комментарии</h3>
+    <ul class="bare">
+    {% for c in comments %}
+        <li style="padding:8px 0;border-bottom:1px dashed var(--border)">
+            <a href="{{ url_for('review_detail', rid=c['review_id']) }}#c{{ c['id'] }}"><b>{{ c['artist'] }}</b> — {{ c['title'] }}</a>
+            <div class="text-dim" style="font-size:13px">{{ c['body'][:200] }}</div>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="card mb-12">
+    <h3>📌 Стена</h3>
+    {% if current_user %}
+    <form method="post" action="{{ url_for('shoutout_add', username=profile['username']) }}" class="mb-12">
+        <textarea name="body" maxlength="300" placeholder="Оставить запись на стене {{ profile['username'] }}…" required></textarea>
+        <button class="btn btn-primary btn-sm mt-8">Опубликовать</button>
+    </form>
+    {% endif %}
+    {% for s in shoutouts %}
+    <div class="shoutout">
+        <div class="head">
+            <span>{{ s['author_emoji'] }}</span>
+            <a href="{{ url_for('profile', username=s['author']) }}"><b>{{ s['author'] }}</b></a>
+            · {{ s['created_at']|ago }}
+            {% if current_user and (current_user['id']==s['author_id'] or current_user['id']==profile['id'] or current_user['role']=='moderator') %}
+            <form method="post" action="{{ url_for('shoutout_delete', sid=s['id']) }}" style="display:inline;margin-left:auto">
+                <button class="btn btn-ghost btn-sm" title="Удалить">✕</button>
+            </form>
+            {% endif %}
+        </div>
+        <div class="body">{{ s['body'] }}</div>
+    </div>
+    {% else %}
+    <p class="text-dim">Записей пока нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Консоль модератора{% endblock %}
+{% block content %}
+<div class="card mod-banner">
+    <div class="row" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+            <h2 class="section-title" style="margin:0">⚙ Консоль модератора</h2>
+            <div class="text-dim">Вход: {{ current_user['avatar_emoji'] }} {{ current_user['username'] }} · сессия защищена</div>
+        </div>
+        <span class="role-badge mod">{{ current_user['role']|role_ru }}</span>
+    </div>
+    {% if motd %}<p class="text-dim mt-8" style="margin-bottom:0"><b>Памятка:</b> {{ motd }}</p>{% endif %}
+    <div class="row gap-8 mt-12">
+        <form method="post" action="{{ url_for('mod_resolve_listen') }}">
+            <button class="btn btn-sm btn-primary" type="submit" title="Подобрать YouTube-видео для рецензий с поисковыми ссылками">
+                🎬 Обновить видео-ссылки
+            </button>
+        </form>
+    </div>
+</div>
+
+<h3 class="section-title">Сводка по сайту</h3>
+<div class="mod-grid">
+    <a class="mod-tile {% if open_reports %}alert{% endif %}" href="{{ url_for('mod_reports') }}">
+        <span class="mt-num">{{ open_reports }}</span>
+        <span class="mt-label">🚩 Открытые жалобы</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_users') }}">
+        <span class="mt-num">{{ user_count }}</span>
+        <span class="mt-label">👥 Пользователи</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_reviews') }}">
+        <span class="mt-num">{{ review_count }}</span>
+        <span class="mt-label">📝 Рецензии</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_comments') }}">
+        <span class="mt-num">{{ comment_count }}</span>
+        <span class="mt-label">💬 Комментарии</span>
+    </a>
+    <div class="mod-tile">
+        <span class="mt-num">{{ banned_count }}</span>
+        <span class="mt-label">⛔ Забанено</span>
+    </div>
+    <div class="mod-tile">
+        <span class="mt-num">{{ drafts_count }}</span>
+        <span class="mt-label">📄 Черновики</span>
+    </div>
+    <a class="mod-tile" href="{{ url_for('mod_playlists') }}">
+        <span class="mt-num">{{ playlists_count }}</span>
+        <span class="mt-label">🎶 Подборки</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_events') }}">
+        <span class="mt-num">{{ events_count }}</span>
+        <span class="mt-label">🎤 События</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_polls') }}">
+        <span class="mt-num">{{ polls_count }}</span>
+        <span class="mt-label">📊 Опросы</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_challenges') }}">
+        <span class="mt-num">{{ challenges_count }}</span>
+        <span class="mt-label">🏁 Челленджи</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_quotes') }}">
+        <span class="mt-num">{{ quotes_count }}</span>
+        <span class="mt-label">📜 Цитаты</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_quiz') }}">
+        <span class="mt-num">{{ quiz_count }}</span>
+        <span class="mt-label">🎯 Викторина</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_settings') }}">
+        <span class="mt-num">⚙</span>
+        <span class="mt-label">Настройки сайта</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_stats') }}">
+        <span class="mt-num">📊</span>
+        <span class="mt-label">Статистика</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('mod_logs') }}">
+        <span class="mt-num">📜</span>
+        <span class="mt-label">Журнал действий</span>
+    </a>
+    <a class="mod-tile" href="{{ url_for('guestbook') }}">
+        <span class="mt-num">📖</span>
+        <span class="mt-label">Гостевая</span>
+    </a>
+</div>
+
+<h3 class="section-title mt-16">Последние действия</h3>
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>Когда</th><th>Кто</th><th>Действие</th><th>Детали</th></tr></thead>
+        <tbody>
+        {% for l in recent_log %}
+        <tr>
+            <td class="text-dim">{{ l['created_at']|ago }}</td>
+            <td>{{ l['username'] }}</td>
+            <td><span class="lb-pill">{{ l['action'] }}</span></td>
+            <td class="text-dim">{{ l['details'] }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-dim">— пусто —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

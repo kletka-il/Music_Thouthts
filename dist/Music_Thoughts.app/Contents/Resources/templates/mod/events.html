@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}События · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">🎤 События · {{ events|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card mb-16">
+    <h3 class="lb-title">＋ Новое событие</h3>
+    <form method="post">
+        <div class="row">
+            <div class="field" style="flex:0 0 110px">
+                <label>Эмодзи</label>
+                <input type="text" name="cover_emoji" maxlength="6" value="🎤">
+            </div>
+            <div class="field" style="flex:1">
+                <label>Название *</label>
+                <input type="text" name="title" required maxlength="120" placeholder="Концерт / встреча / прослушка">
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Дата и время * (YYYY-MM-DDTHH:MM)</label>
+                <input type="text" name="starts_at" required placeholder="2026-05-20T19:00">
+            </div>
+            <div class="field">
+                <label>Город</label>
+                <input type="text" name="city" maxlength="60">
+            </div>
+            <div class="field">
+                <label>Площадка</label>
+                <input type="text" name="venue" maxlength="120">
+            </div>
+        </div>
+        <div class="field">
+            <label>Описание</label>
+            <textarea name="description" maxlength="1500" placeholder="О чём событие, как попасть"></textarea>
+        </div>
+        <div class="field">
+            <label>Внешняя ссылка (билеты, расписание)</label>
+            <input type="url" name="link" maxlength="300">
+        </div>
+        <button class="btn btn-primary" type="submit">📤 Опубликовать</button>
+    </form>
+</div>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>#</th><th>Когда</th><th>Название</th><th>Город</th><th>Видимость</th><th></th></tr></thead>
+        <tbody>
+        {% for e in events %}
+        <tr>
+            <td class="text-dim">#{{ e['id'] }}</td>
+            <td class="text-dim small">{{ e['starts_at']|nicedate }}</td>
+            <td><a href="{{ url_for('event_detail', eid=e['id']) }}">{{ e['cover_emoji'] }} {{ e['title'] }}</a></td>
+            <td>{{ e['city'] }}</td>
+            <td>
+                <form method="post" action="{{ url_for('mod_event_toggle', eid=e['id']) }}">
+                    <button class="btn btn-sm {% if e['is_hidden'] %}btn-danger{% endif %}" type="submit">
+                        {{ '🙈 скрыто' if e['is_hidden'] else '👁 видно' }}
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{ url_for('mod_event_delete', eid=e['id']) }}" onsubmit="return confirm('Удалить событие?')">
+                    <button class="btn btn-sm btn-danger" type="submit">×</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-dim">— событий нет —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

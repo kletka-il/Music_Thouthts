@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Жалобы · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">🚩 Жалобы · {{ reports|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>#</th><th>Когда</th><th>От</th><th>Объект</th><th>Причина</th><th>Статус</th><th></th></tr></thead>
+        <tbody>
+        {% for r in reports %}
+        <tr>
+            <td class="text-dim">#{{ r['id'] }}</td>
+            <td class="text-dim small">{{ r['created_at']|ago }}</td>
+            <td>{{ r['reporter'] }}</td>
+            <td>
+                <span class="lb-pill">{% if r['target_type']=='review' %}рецензия{% elif r['target_type']=='comment' %}комментарий{% else %}{{ r['target_type'] }}{% endif %} #{{ r['target_id'] }}</span>
+                {% if r['target_type']=='review' %}
+                <a href="{{ url_for('review_detail', rid=r['target_id']) }}">→</a>
+                {% endif %}
+            </td>
+            <td style="max-width:280px">{{ r['reason'] }}</td>
+            <td>
+                {% if r['status']=='open' %}
+                <span class="role-badge" style="background:var(--bad);color:#fff">открыта</span>
+                {% else %}
+                <span class="role-badge" style="background:var(--ok);color:#fff">закрыта</span>
+                <div class="text-dim small">{{ r['resolution'] }}</div>
+                {% endif %}
+            </td>
+            <td>
+                {% if r['status']=='open' %}
+                <form method="post" action="{{ url_for('mod_report_resolve', rid=r['id']) }}" class="row gap-8">
+                    <input type="text" name="resolution" placeholder="что сделали" style="width:160px">
+                    <button class="btn btn-sm btn-primary" type="submit">Закрыть</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-dim">— жалоб нет —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

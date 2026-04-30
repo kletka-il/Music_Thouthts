@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Подборки · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">🎶 Подборки · {{ playlists|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>#</th><th>Название</th><th>Автор</th><th>Рец.</th><th>Публ.</th><th>Видимость</th><th></th></tr></thead>
+        <tbody>
+        {% for p in playlists %}
+        <tr>
+            <td class="text-dim">#{{ p['id'] }}</td>
+            <td><a href="{{ url_for('playlist_detail', pid=p['id']) }}">{{ p['cover_emoji'] or '🎶' }} {{ p['title'] }}</a></td>
+            <td>{{ p['owner'] }}</td>
+            <td><span class="lb-pill">{{ p['n'] }}</span></td>
+            <td class="text-dim small">{{ 'да' if p['is_public'] else 'нет' }}</td>
+            <td>
+                <form method="post" action="{{ url_for('mod_playlist_toggle', pid=p['id']) }}">
+                    <button class="btn btn-sm {% if p['is_hidden'] %}btn-danger{% endif %}" type="submit">
+                        {{ '🙈 скрыта' if p['is_hidden'] else '👁 видна' }}
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{ url_for('playlist_delete', pid=p['id']) }}" onsubmit="return confirm('Удалить подборку?')">
+                    <button class="btn btn-sm btn-danger" type="submit">×</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-dim">— подборок нет —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

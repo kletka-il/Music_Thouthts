@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Подборки{% endblock %}
+{% block content %}
+<h2 class="section-title">🎶 Подборки сообщества
+    {% if current_user %}
+    <a class="btn btn-primary btn-sm" href="{{ url_for('playlist_new') }}">＋ Новая</a>
+    {% endif %}
+</h2>
+<p class="text-dim mb-16">Мини-альбомы из ваших любимых рецензий. Соберите своё.</p>
+
+<div class="playlist-grid">
+    {% for p in playlists %}
+    <a class="playlist-card" href="{{ url_for('playlist_detail', pid=p['id']) }}">
+        <div class="pl-cover">{{ p['cover_emoji'] or '🎶' }}</div>
+        <div class="pl-meta">
+            <div class="pl-title">{{ p['title'] }}</div>
+            <div class="pl-sub">
+                {{ p['owner_emoji'] }} {{ p['owner'] }}
+                · {{ p['n'] }} рец.
+                · {{ p['created_at']|nicedate }}
+            </div>
+            {% if p['description'] %}
+            <div class="pl-desc">{{ p['description']|truncate(120) }}</div>
+            {% endif %}
+        </div>
+    </a>
+    {% else %}
+    <div class="empty"><div class="ic">📂</div>Подборок пока нет. {% if current_user %}<a href="{{ url_for('playlist_new') }}">Создайте первую →</a>{% endif %}</div>
+    {% endfor %}
+</div>
+{% endblock %}

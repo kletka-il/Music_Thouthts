@@ -1,0 +1,39 @@
+<article class="review-card">
+    <div class="cover-wrap">
+        <a class="cover" href="{{ url_for('review_detail', rid=r['id']) }}" title="{{ r['artist'] }} — {{ r['title'] }}">
+            {% if r['cover_url'] %}<img src="{{ r['cover_url'] }}" alt="">{% else %}♪{% endif %}
+        </a>
+        {% if r['listen_url'] %}
+        <a class="play-overlay" href="{{ r['listen_url'] }}"
+           data-embed="{{ r['listen_url']|embed_url }}"
+           data-listen="{{ r['listen_url'] }}"
+           data-title="{{ r['artist'] }} — {{ r['title'] }}"
+           title="Слушать прямо здесь" aria-label="Слушать">▶</a>
+        {% endif %}
+    </div>
+    <div class="meta">
+        <a class="title" href="{{ url_for('review_detail', rid=r['id']) }}">{{ r['artist'] }} — {{ r['title'] }}</a>
+        <div class="sub">
+            {% if r['genre'] %}{{ r['genre'] }}{% endif %}
+            {% if r['year'] %} · {{ r['year'] }}{% endif %}
+            {% if r['author'] %} · <a href="{{ url_for('profile', username=r['author']) }}">{{ r['author_emoji'] or '🎵' }} {{ r['author'] }}</a>{% endif %}
+            · {{ r['created_at']|ago }}
+        </div>
+        <div class="body-preview">{{ r['body'][:220] }}{% if r['body']|length > 220 %}…{% endif %}</div>
+        <div class="row-bottom">
+            <span class="score-pill {% if r['score'] < 6 %}lo{% endif %}">{{ r['score'] }}/10</span>
+            {% if r['mood'] %}<span class="mood-pill">{{ r['mood']|mood_ru }}</span>{% endif %}
+            {% if r['is_featured'] %}<span class="mood-pill" style="background:rgba(217,155,28,.15);color:var(--gold)">★ редакция</span>{% endif %}
+            {% if r['cn'] is defined %}<span>💬 {{ r['cn'] }}</span>{% endif %}
+            {% if r['views'] is defined %}<span>👀 {{ r['views'] }}</span>{% endif %}
+            {% if r['net_rating'] is defined %}<span>👍 {{ r['net_rating'] }}</span>{% endif %}
+            {% if r['listen_url'] %}
+            <a class="listen-mini" href="{{ r['listen_url'] }}"
+               data-embed="{{ r['listen_url']|embed_url }}"
+               data-listen="{{ r['listen_url'] }}"
+               data-title="{{ r['artist'] }} — {{ r['title'] }}"
+               title="Слушать прямо здесь">🎧 Слушать</a>
+            {% endif %}
+        </div>
+    </div>
+</article>

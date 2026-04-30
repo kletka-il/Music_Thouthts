@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ p['question'] }}{% endblock %}
+{% block content %}
+<div class="card poll-card">
+    <div class="text-dim small">📊 Опрос {% if p['is_closed'] %}· завершён{% endif %}</div>
+    <h2 class="poll-q-big">{{ p['question'] }}</h2>
+
+    <form method="post">
+        {% for o in options %}
+        {% set pct = (o['vc'] * 100 // total) if total else 0 %}
+        <label class="poll-option {% if my_vote==o['id'] %}is-mine{% endif %}">
+            <input type="radio" name="option_id" value="{{ o['id'] }}" {% if my_vote==o['id'] %}checked{% endif %} {% if p['is_closed'] or not current_user %}disabled{% endif %}>
+            <span class="poll-opt-text">{{ o['text'] }}</span>
+            <span class="poll-opt-bar"><span style="width:{{ pct }}%"></span></span>
+            <span class="poll-opt-pct">{{ pct }}% · {{ o['vc'] }}</span>
+        </label>
+        {% endfor %}
+
+        {% if current_user and not p['is_closed'] %}
+        <button class="btn btn-primary mt-12" type="submit">Проголосовать</button>
+        {% elif not current_user %}
+        <p class="text-dim mt-12">Чтобы голосовать, <a href="{{ url_for('login') }}">войдите</a>.</p>
+        {% endif %}
+    </form>
+
+    <div class="text-dim small mt-12">Всего голосов: {{ total }}</div>
+</div>
+
+<a class="btn mt-16" href="{{ url_for('polls_list') }}">← Все опросы</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Лента подписок{% endblock %}
+{% block content %}
+<h2 class="section-title">📡 Лента подписок</h2>
+<p class="text-dim mb-16">Свежие рецензии от авторов, на которых вы подписаны.</p>
+
+{% for r in reviews %}
+    {% include "_review_card.html" %}
+{% else %}
+<div class="empty">
+    <div class="ic">🌌</div>
+    <div>Лента пуста. Подпишитесь на интересных рецензентов — и сюда начнут попадать их свежие тексты.</div>
+    <a class="btn btn-primary mt-12" href="{{ url_for('leaderboard') }}">К списку лидеров →</a>
+</div>
+{% endfor %}
+{% endblock %}

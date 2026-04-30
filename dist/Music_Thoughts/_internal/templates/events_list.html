@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Афиша{% endblock %}
+{% block content %}
+<h2 class="section-title">🎤 Афиша событий</h2>
+<p class="text-dim mb-16">Концерты, прослушки, обсуждения — всё, что обсуждаем вместе.</p>
+
+<h3 class="section-title">🔜 Скоро</h3>
+{% for e in upcoming %}
+<a class="event-card" href="{{ url_for('event_detail', eid=e['id']) }}">
+    <div class="event-date">
+        <div class="d">{{ e['starts_at']|nicedate }}</div>
+        {% if e['city'] %}<div class="text-dim small">{{ e['city'] }}</div>{% endif %}
+    </div>
+    <div class="event-meta">
+        <div class="event-title">{{ e['title'] }}</div>
+        {% if e['venue'] %}<div class="text-dim small">📍 {{ e['venue'] }}</div>{% endif %}
+        {% if e['description'] %}<div class="event-desc">{{ e['description']|truncate(180) }}</div>{% endif %}
+        <div class="event-att">👥 {{ e['att'] }} {% if e['id'] in my_events %}· <span class="role-badge" style="background:var(--accent);color:#fff">вы идёте</span>{% endif %}</div>
+    </div>
+</a>
+{% else %}
+<div class="empty"><div class="ic">🌒</div>Пока никаких событий не запланировано.</div>
+{% endfor %}
+
+{% if past %}
+<h3 class="section-title mt-24">⏳ Уже прошло</h3>
+{% for e in past %}
+<a class="event-card past" href="{{ url_for('event_detail', eid=e['id']) }}">
+    <div class="event-date">
+        <div class="d">{{ e['starts_at']|nicedate }}</div>
+        {% if e['city'] %}<div class="text-dim small">{{ e['city'] }}</div>{% endif %}
+    </div>
+    <div class="event-meta">
+        <div class="event-title">{{ e['title'] }}</div>
+        {% if e['venue'] %}<div class="text-dim small">📍 {{ e['venue'] }}</div>{% endif %}
+        <div class="event-att">👥 {{ e['att'] }}</div>
+    </div>
+</a>
+{% endfor %}
+{% endif %}
+{% endblock %}

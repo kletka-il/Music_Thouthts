@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Рецензии{% endblock %}
+{% block content %}
+<h2 class="section-title">Каталог рецензий{% if tag %} · #{{ tag }}{% endif %}
+    <a class="small" href="{{ url_for('reviews_list') }}">сбросить →</a>
+</h2>
+
+<div class="card mb-16">
+    <form method="get">
+        <div class="filters">
+            <div class="field">
+                <label>Поиск</label>
+                <input type="text" name="q" value="{{ q }}" placeholder="артист, альбом, текст">
+            </div>
+            <div class="field">
+                <label>Жанр</label>
+                <select name="genre">
+                    <option value="">— любой —</option>
+                    {% for g in genres %}
+                    <option value="{{ g['genre'] }}" {% if g['genre']==genre %}selected{% endif %}>{{ g['genre'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>Настроение</label>
+                <select name="mood">
+                    <option value="">— любое —</option>
+                    {% for code, label in MOOD_OPTIONS %}
+                    <option value="{{ code }}" {% if code==mood %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>Сортировка</label>
+                <select name="sort">
+                    <option value="new" {% if sort=='new' %}selected{% endif %}>Свежие</option>
+                    <option value="old" {% if sort=='old' %}selected{% endif %}>Старые</option>
+                    <option value="top" {% if sort=='top' %}selected{% endif %}>Топ голосов</option>
+                    <option value="score" {% if sort=='score' %}selected{% endif %}>По оценке</option>
+                    <option value="views" {% if sort=='views' %}selected{% endif %}>Популярные</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Год с</label>
+                <input type="number" name="year_from" value="{{ year_from }}">
+            </div>
+            <div class="field">
+                <label>Год по</label>
+                <input type="number" name="year_to" value="{{ year_to }}">
+            </div>
+            <div class="field">
+                <label>Мин. оценка</label>
+                <input type="number" name="score_min" min="1" max="10" value="{{ score_min }}">
+            </div>
+            <div class="field field-actions">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary w-full" type="submit">Найти ({{ reviews|length }})</button>
+            </div>
+        </div>
+        {% if tag %}<input type="hidden" name="tag" value="{{ tag }}">{% endif %}
+    </form>
+</div>
+
+{% for r in reviews %}
+    {% include "_review_card.html" %}
+{% else %}
+<div class="empty"><div class="ic">🔍</div>Ничего не нашлось. Попробуйте сменить фильтры.</div>
+{% endfor %}
+{% endblock %}

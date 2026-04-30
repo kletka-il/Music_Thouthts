@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Комментарии · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">💬 Последние комментарии · {{ comments|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>#</th><th>Когда</th><th>Автор</th><th>К рецензии</th><th>Текст</th><th></th></tr></thead>
+        <tbody>
+        {% for c in comments %}
+        <tr>
+            <td class="text-dim">#{{ c['id'] }}</td>
+            <td class="text-dim small">{{ c['created_at']|ago }}</td>
+            <td><a href="{{ url_for('profile', username=c['author']) }}">{{ c['author'] }}</a></td>
+            <td>
+                <a href="{{ url_for('review_detail', rid=c['review_id']) }}#c{{ c['id'] }}">
+                    {{ c['artist'] }} — {{ c['title'] }}
+                </a>
+            </td>
+            <td style="max-width:420px">{{ c['body'][:200] }}</td>
+            <td>
+                <form method="post" action="{{ url_for('comment_delete', cid=c['id']) }}" onsubmit="return confirm('Удалить?')">
+                    <button class="btn btn-sm btn-danger" type="submit">×</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-dim">— нет комментариев —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

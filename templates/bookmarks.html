@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Закладки{% endblock %}
+{% block content %}
+<h2 class="section-title">🔖 Мои закладки</h2>
+<p class="text-dim mb-16">Рецензии, к которым вы хотите вернуться.</p>
+
+{% for r in reviews %}
+    {% include "_review_card.html" %}
+{% else %}
+<div class="empty">
+    <div class="ic">🪶</div>
+    <div>Закладок пока нет. Откройте любую рецензию и нажмите «☆ В закладки» — она окажется здесь.</div>
+</div>
+{% endfor %}
+{% endblock %}

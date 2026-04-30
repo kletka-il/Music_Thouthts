@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Дневник прослушиваний{% endblock %}
+{% block content %}
+<h2 class="section-title">📔 Дневник прослушиваний</h2>
+<p class="text-dim mb-16">Личная летопись — что вы слушали и что почувствовали. Видна только вам.</p>
+
+<div class="card mb-16">
+    <h3 class="lb-title">＋ Новая запись</h3>
+    <form method="post">
+        <div class="row">
+            <div class="field">
+                <label>Исполнитель *</label>
+                <input type="text" name="artist" required maxlength="100" placeholder="Кого слушали">
+            </div>
+            <div class="field">
+                <label>Альбом / трек</label>
+                <input type="text" name="title" maxlength="120" placeholder="Что именно">
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Настроение</label>
+                <select name="mood">
+                    <option value="">— не указано —</option>
+                    {% for code, label in MOOD_OPTIONS %}
+                    <option value="{{ code }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>Личная оценка (0–10)</label>
+                <input type="number" name="rating" min="0" max="10" value="0">
+            </div>
+        </div>
+        <div class="field">
+            <label>Заметка</label>
+            <textarea name="note" maxlength="500" placeholder="Какие мысли, ассоциации, где это слушалось"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">📔 Добавить запись</button>
+    </form>
+</div>
+
+<h3 class="section-title">История · {{ entries|length }}</h3>
+{% for e in entries %}
+<div class="diary-entry">
+    <div class="diary-head">
+        <b>{{ e['artist'] }}{% if e['title'] %} — {{ e['title'] }}{% endif %}</b>
+        <span class="text-dim small">· {{ e['created_at']|ago }}</span>
+        {% if e['mood'] %}<span class="mood-pill">{{ e['mood']|mood_ru }}</span>{% endif %}
+        {% if e['rating'] and e['rating']>0 %}<span class="score-pill">{{ e['rating'] }}/10</span>{% endif %}
+        <form method="post" action="{{ url_for('diary_delete', lid=e['id']) }}" style="margin-left:auto">
+            <button class="btn btn-sm btn-ghost" type="submit" onclick="return confirm('Удалить запись?')">✕</button>
+        </form>
+    </div>
+    {% if e['note'] %}<div class="diary-note">{{ e['note'] }}</div>{% endif %}
+</div>
+{% else %}
+<div class="empty"><div class="ic">📓</div>Пока пусто. Запишите, что вы слушаете прямо сейчас.</div>
+{% endfor %}
+{% endblock %}

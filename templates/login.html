@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<div class="auth-card">
+    <h1>Вход в аккаунт</h1>
+    <form method="post">
+        <div class="field">
+            <label>Логин</label>
+            <input type="text" name="username" required autofocus>
+        </div>
+        <div class="field">
+            <label>Пароль</label>
+            <input type="password" name="password" required>
+        </div>
+        <button class="btn btn-primary w-full" type="submit">Войти</button>
+    </form>
+    <p class="text-dim mt-16 mb-0" style="text-align:center">Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+    <hr>
+    <details>
+        <summary class="text-dim" style="cursor:pointer;font-size:13px">Тестовые учётки (для демо)</summary>
+        <ul class="bare" style="font-size:13px;margin-top:8px">
+            <li><b>Админ_Иваныч</b> · <code>admin1995</code> · модератор</li>
+            <li><b>RetroFan2003</b> · <code>windows98</code> · модератор</li>
+            <li><b>DJ_Sovetov</b> · <code>kassetnik</code> · модератор</li>
+            <li><b>Рецензент_Котов</b> · <code>review123</code> · рецензент</li>
+            <li><b>Лена_Бит</b> · <code>lena12345</code> · рецензент</li>
+            <li><b>Слушатель_Петров</b> · <code>listen123</code> · слушатель</li>
+        </ul>
+    </details>
+</div>
+{% endblock %}
+{% block side %}{% endblock %}

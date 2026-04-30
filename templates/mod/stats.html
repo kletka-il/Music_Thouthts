@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Статистика{% endblock %}
+{% block content %}
+<h2 class="section-title">📊 Статистика
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="mod-grid mb-16">
+    <div class="mod-tile">
+        <span class="mt-num">{{ visits }}</span>
+        <span class="mt-label">Всего посещений</span>
+    </div>
+    {% for r in roles %}
+    <div class="mod-tile">
+        <span class="mt-num">{{ r['c'] }}</span>
+        <span class="mt-label">{{ r['role']|role_ru }}</span>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card mb-16">
+    <h3 class="lb-title">🎵 Жанры рецензий</h3>
+    <table class="mod-table">
+        <thead><tr><th>Жанр</th><th>Рецензий</th></tr></thead>
+        <tbody>
+        {% for g in genres %}
+        <tr>
+            <td>{{ g['genre'] }}</td>
+            <td><span class="lb-pill accent">{{ g['c'] }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="2" class="text-dim">— нет данных —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3 class="lb-title">🏆 Топ-10 авторов</h3>
+    <table class="mod-table">
+        <thead><tr><th>Автор</th><th>Рецензий</th></tr></thead>
+        <tbody>
+        {% for a in authors %}
+        <tr>
+            <td>{{ a['username'] }}</td>
+            <td><span class="lb-pill">{{ a['c'] }}</span></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

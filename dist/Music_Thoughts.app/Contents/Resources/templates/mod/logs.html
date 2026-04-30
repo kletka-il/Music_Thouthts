@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Журнал действий{% endblock %}
+{% block content %}
+<h2 class="section-title">📜 Журнал действий · {{ logs|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr><th>Когда</th><th>Кто</th><th>Действие</th><th>Детали</th></tr></thead>
+        <tbody>
+        {% for l in logs %}
+        <tr>
+            <td class="text-dim small">{{ l['created_at']|nicedate }}</td>
+            <td>{{ l['username'] }}</td>
+            <td><span class="lb-pill">{{ l['action'] }}</span></td>
+            <td class="text-dim">{{ l['details'] }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-dim">— пусто —</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

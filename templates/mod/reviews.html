@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Рецензии · модерация{% endblock %}
+{% block content %}
+<h2 class="section-title">📝 Рецензии · {{ reviews|length }}
+    <a class="small" href="{{ url_for('mod_console') }}">← консоль</a>
+</h2>
+
+<div class="card">
+    <table class="mod-table">
+        <thead><tr>
+            <th>#</th><th>Артист — название</th><th>Автор</th><th>Оценка</th>
+            <th>Видимость</th><th>Витрина</th><th>👀</th><th></th>
+        </tr></thead>
+        <tbody>
+        {% for r in reviews %}
+        <tr>
+            <td class="text-dim">#{{ r['id'] }}</td>
+            <td>
+                <a href="{{ url_for('review_detail', rid=r['id']) }}"><b>{{ r['artist'] }} — {{ r['title'] }}</b></a>
+                {% if r['is_draft'] %}<span class="role-badge" style="background:var(--bad);color:#fff">черновик</span>{% endif %}
+            </td>
+            <td>{{ r['author'] }}</td>
+            <td><span class="score-pill {% if r['score']<6 %}lo{% endif %}">{{ r['score'] }}/10</span></td>
+            <td>
+                <form method="post" action="{{ url_for('mod_toggle_hidden', rid=r['id']) }}">
+                    <button class="btn btn-sm {% if r['is_hidden'] %}btn-danger{% endif %}" type="submit">
+                        {{ '🙈 скрыта' if r['is_hidden'] else '👁 видима' }}
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{ url_for('mod_toggle_featured', rid=r['id']) }}">
+                    <button class="btn btn-sm {% if r['is_featured'] %}btn-primary{% endif %}" type="submit">
+                        {{ '★ на витрине' if r['is_featured'] else '○ снять' }}
+                    </button>
+                </form>
+            </td>
+            <td class="text-dim">{{ r['views'] }}</td>
+            <td>
+                <div class="row gap-8">
+                    <a class="btn btn-sm" href="{{ url_for('review_edit', rid=r['id']) }}">✎</a>
+                    <form method="post" action="{{ url_for('mod_set_sotd', rid=r['id']) }}">
+                        <input type="hidden" name="note" value="Выбор редакции">
+                        <button class="btn btn-sm" type="submit" title="Назначить альбомом дня">⭐</button>
+                    </form>
+                    <form method="post" action="{{ url_for('review_delete', rid=r['id']) }}" onsubmit="return confirm('Удалить?')">
+                        <button class="btn btn-sm btn-danger" type="submit">×</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

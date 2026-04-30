@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{% if r %}Редактирование{% else %}Новая рецензия{% endif %}{% endblock %}
+{% block content %}
+<div class="card">
+    <h2 class="section-title">{% if r %}✎ Редактирование рецензии{% else %}＋ Новая рецензия{% endif %}</h2>
+    <form method="post">
+        <div class="row">
+            <div class="field">
+                <label>Исполнитель *</label>
+                <input type="text" name="artist" required value="{{ r['artist'] if r else '' }}">
+            </div>
+            <div class="field">
+                <label>Название альбома / трека *</label>
+                <input type="text" name="title" required value="{{ r['title'] if r else '' }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Жанр</label>
+                <input type="text" name="genre" value="{{ r['genre'] if r else '' }}" placeholder="Хип-хоп, Рок, Электроника…">
+            </div>
+            <div class="field">
+                <label>Год</label>
+                <input type="number" name="year" min="1900" max="2100" value="{{ r['year'] if r and r['year'] else '' }}">
+            </div>
+            <div class="field">
+                <label>Оценка (1–10)</label>
+                <input type="number" name="score" min="1" max="10" value="{{ r['score'] if r else 7 }}">
+            </div>
+        </div>
+        <div class="field">
+            <label>Настроение альбома</label>
+            <select name="mood">
+                <option value="">— не указано —</option>
+                {% for code, label in MOOD_OPTIONS %}
+                <option value="{{ code }}" {% if r and r['mood']==code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <label>Теги (через запятую, до 10)</label>
+            <input type="text" name="tags" value="{{ tags_str }}" placeholder="инди, мечтательное, синтезаторы">
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Ссылка на обложку</label>
+                <input type="url" name="cover_url" value="{{ r['cover_url'] if r else '' }}" placeholder="https://…">
+            </div>
+            <div class="field">
+                <label>Ссылка послушать (YouTube / SoundCloud / Spotify)</label>
+                <input type="url" name="listen_url" value="{{ r['listen_url'] if r else '' }}">
+            </div>
+        </div>
+        <div class="field">
+            <label>Текст рецензии *</label>
+            <textarea name="body" required style="min-height:240px">{{ r['body'] if r else '' }}</textarea>
+        </div>
+        <div class="field">
+            <label style="display:inline-flex;align-items:center;gap:8px">
+                <input type="checkbox" name="is_draft" {% if r and r['is_draft'] %}checked{% endif %}>
+                Сохранить как черновик (не публиковать)
+            </label>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" type="submit">{% if r %}💾 Сохранить{% else %}📤 Опубликовать{% endif %}</button>
+            {% if r %}<a class="btn" href="{{ url_for('review_detail', rid=r['id']) }}">Отмена</a>{% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block side %}{% endblock %}
