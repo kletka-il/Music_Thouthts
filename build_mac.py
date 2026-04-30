@@ -43,11 +43,20 @@ def ensure_venv():
 
     py = venv_python()
 
-    if not os.path.isfile(py):
-
+    def create_fresh_venv():
         print(">> Создаю виртуальное окружение в .venv-build/ ...")
+        venv.EnvBuilder(with_pip=True, clear=True).create(VENV_DIR)
 
-        venv.EnvBuilder(with_pip=True, clear=False).create(VENV_DIR)
+    needs_recreate = not os.path.isfile(py)
+    if not needs_recreate:
+        try:
+            subprocess.check_call([py, "-c", "import sys; print(sys.version)"])
+        except Exception:
+            print(">> Найдено битое .venv-build (ссылка на старый Python). Пересоздаю...")
+            needs_recreate = True
+
+    if needs_recreate:
+        create_fresh_venv()
 
     subprocess.check_call([py, "-m", "pip", "install", "--upgrade", "pip", "--quiet"])
 

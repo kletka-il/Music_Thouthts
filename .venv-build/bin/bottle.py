@@ -1,4 +1,4 @@
-#!/Users/sdaniel/PycharmProjects/SD/Колледж/Жабкин/Music_Thoats/.venv-build/bin/python
+#!/Users/kletka/Downloads/Music_Thoats/.venv-build/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 """

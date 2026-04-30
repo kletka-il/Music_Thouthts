@@ -1,12 +1,19 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_all
+
+datas = [('templates', 'templates'), ('static', 'static')]
+binaries = []
+hiddenimports = ['flask', 'werkzeug', 'webview', 'webview.platforms.cocoa']
+tmp_ret = collect_all('webview')
+datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 
 a = Analysis(
     ['/Users/kletka/Downloads/Music_Thoats/desktop_app.py'],
     pathex=[],
-    binaries=[],
-    datas=[('templates', 'templates'), ('static', 'static')],
-    hiddenimports=['flask', 'werkzeug', 'webview'],
+    binaries=binaries,
+    datas=datas,
+    hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -46,5 +53,5 @@ app = BUNDLE(
     coll,
     name='Music_Thoughts.app',
     icon=None,
-    bundle_identifier=None,
+    bundle_identifier='com.music.thoughts',
 )

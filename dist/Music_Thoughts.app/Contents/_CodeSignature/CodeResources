@@ -6,25 +6,29 @@
 	<dict>
 		<key>Resources/base_library.zip</key>
 		<data>
-		OmxX5Cal0KmIpyXYvgZvWMBUvF8=
+		1v17pqeGdzduihMpamxl0UP8W9Q=
 		</data>
-		<key>Resources/click-8.3.1.dist-info/INSTALLER</key>
+		<key>Resources/click-8.3.3.dist-info/INSTALLER</key>
 		<data>
 		16AxQdXWseiLa1nvCLZoHfISxZk=
 		</data>
-		<key>Resources/click-8.3.1.dist-info/METADATA</key>
+		<key>Resources/click-8.3.3.dist-info/METADATA</key>
 		<data>
-		Yax5LZQ3keUXOPa6h3Fu5MwASZE=
+		s15JcRb/ECk434N6p+36eXyvI04=
 		</data>
-		<key>Resources/click-8.3.1.dist-info/RECORD</key>
+		<key>Resources/click-8.3.3.dist-info/RECORD</key>
 		<data>
-		I9iusLTXvoT27vfsdfp+RpT2gOA=
+		KJVuokCqMsZLNJB6dYquOS7QwTw=
 		</data>
-		<key>Resources/click-8.3.1.dist-info/WHEEL</key>
+		<key>Resources/click-8.3.3.dist-info/REQUESTED</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>Resources/click-8.3.3.dist-info/WHEEL</key>
 		<data>
 		kYyWz0uH2EYWFAEoT5v4EcVrX88=
 		</data>
-		<key>Resources/click-8.3.1.dist-info/licenses/LICENSE.txt</key>
+		<key>Resources/click-8.3.3.dist-info/licenses/LICENSE.txt</key>
 		<data>
 		b7EeAv/g95t08cYDS0rm53F6afg=
 		</data>
@@ -38,7 +42,7 @@
 		</data>
 		<key>Resources/flask-3.1.3.dist-info/RECORD</key>
 		<data>
-		oekoVcy9r4tTSOGZmV9UU2IWdkE=
+		OBY3eWo/3K2NkNIpPk2ntMmh9sY=
 		</data>
 		<key>Resources/flask-3.1.3.dist-info/REQUESTED</key>
 		<data>
@@ -74,7 +78,11 @@
 		</data>
 		<key>Resources/itsdangerous-2.2.0.dist-info/RECORD</key>
 		<data>
-		j78vSQTxkYflIstdiHQGAZlHn+4=
+		o5OaWhGib3AHCA4EuITC7JASKJ4=
+		</data>
+		<key>Resources/itsdangerous-2.2.0.dist-info/REQUESTED</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
 		</data>
 		<key>Resources/itsdangerous-2.2.0.dist-info/WHEEL</key>
 		<data>
@@ -90,7 +98,11 @@
 		</data>
 		<key>Resources/markupsafe-3.0.3.dist-info/RECORD</key>
 		<data>
-		rhtHisyD4hz0RhvG72lM84EulNg=
+		p+IzvuQXKTqcHivzZfUNHGaw3iQ=
+		</data>
+		<key>Resources/markupsafe-3.0.3.dist-info/REQUESTED</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
 		</data>
 		<key>Resources/markupsafe-3.0.3.dist-info/WHEEL</key>
 		<data>
@@ -104,37 +116,37 @@
 		<data>
 		9T4+HF2W8MlhRf2Ud+qNvTCs63s=
 		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/INSTALLER</key>
+		<key>Resources/pywebview-6.2.1.dist-info/INSTALLER</key>
 		<data>
 		16AxQdXWseiLa1nvCLZoHfISxZk=
 		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE</key>
+		<key>Resources/pywebview-6.2.1.dist-info/METADATA</key>
 		<data>
-		K4uBUimqimHkg/tLoFiLi2xJGJA=
+		bjWeg0eNcCXxF8lhsV6qZW8KRTU=
 		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/METADATA</key>
+		<key>Resources/pywebview-6.2.1.dist-info/RECORD</key>
 		<data>
-		6Mgw2LCUIwDHyHs7j9FeoTluB70=
+		+Q0UdZZhH4X5OBdwNy+Tbpm+788=
 		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/RECORD</key>
-		<data>
-		s5THrsFYNQuvZ2rjGXvvTXFYsxw=
-		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/REQUESTED</key>
+		<key>Resources/pywebview-6.2.1.dist-info/REQUESTED</key>
 		<data>
 		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
 		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/WHEEL</key>
+		<key>Resources/pywebview-6.2.1.dist-info/WHEEL</key>
 		<data>
-		eCm0Mku1QnmUlBMaJw7Dva1N7e8=
+		Vv5fFz2P1CYu9Eud1IsdX0nYTDU=
 		</data>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/top_level.txt</key>
+		<key>Resources/pywebview-6.2.1.dist-info/entry_points.txt</key>
 		<data>
-		TmH5Jk3nR4O1kkJJvP4bBvF4ua0=
+		yJ/9G2TU1SNPEJKXUCI4LdVd1XI=
 		</data>
-		<key>Resources/setuptools/_vendor/jaraco/text/Lorem ipsum.txt</key>
+		<key>Resources/pywebview-6.2.1.dist-info/licenses/LICENSE</key>
 		<data>
-		eDY2ciZNnNP3LVwdNmXhZXsaUHE=
+		rr8+omlQuIYR/f//94u36rs+9+E=
+		</data>
+		<key>Resources/pywebview-6.2.1.dist-info/top_level.txt</key>
+		<data>
+		Ol+6Np1V9HP31gBAE7GPhOmUtPo=
 		</data>
 		<key>Resources/static/style.css</key>
 		<data>
@@ -328,6 +340,246 @@
 		<data>
 		jMnzgi12iVn7OJqn45zGKis3Cxw=
 		</data>
+		<key>Resources/webview/__init__.py</key>
+		<data>
+		Y2tSwJPC879vhhhqe32NND8+0Dk=
+		</data>
+		<key>Resources/webview/__pyinstaller/__init__.py</key>
+		<data>
+		Nixe3hmgiUPXxRtEYC2cuqdahdI=
+		</data>
+		<key>Resources/webview/__pyinstaller/hook-webview.py</key>
+		<data>
+		Qvm0JlR0jxW8ygMDsSUCDOMyKic=
+		</data>
+		<key>Resources/webview/_version.py</key>
+		<data>
+		1DZ8GIwmM15otLbq3Affdeuttyo=
+		</data>
+		<key>Resources/webview/dom/__init__.py</key>
+		<data>
+		t6AAHLXRmGKVM29qpDjMYrMx+dY=
+		</data>
+		<key>Resources/webview/dom/classlist.py</key>
+		<data>
+		JngrGVv3segYdo+VNd/hvvbEPfk=
+		</data>
+		<key>Resources/webview/dom/dom.py</key>
+		<data>
+		EnTFzH+Auk/+QshTG7JW1RZRCkg=
+		</data>
+		<key>Resources/webview/dom/element.py</key>
+		<data>
+		lDZ96M70p/YWCw8BZKzV8XpVaIY=
+		</data>
+		<key>Resources/webview/dom/event.py</key>
+		<data>
+		ww6BRg3YS9D2RI9jdXDCGas9Fh4=
+		</data>
+		<key>Resources/webview/dom/propsdict.py</key>
+		<data>
+		wwUk963fU8t+qmQucp3gGKckbn4=
+		</data>
+		<key>Resources/webview/errors.py</key>
+		<data>
+		MuHk8FvsQNPvHOsWElAmp3F8W0o=
+		</data>
+		<key>Resources/webview/event.py</key>
+		<data>
+		w82gtave9VkTilgoRPvp6y++Vk0=
+		</data>
+		<key>Resources/webview/guilib.py</key>
+		<data>
+		ndJIfIPCanom25wETpz8gE5xnB0=
+		</data>
+		<key>Resources/webview/http.py</key>
+		<data>
+		eBgt4EdaQnXjERmDDTR4dNj9oR8=
+		</data>
+		<key>Resources/webview/js/api.js</key>
+		<data>
+		XuRIZcJY7fPG8VjDlv7MmFVcJ58=
+		</data>
+		<key>Resources/webview/js/customize.js</key>
+		<data>
+		M3QhcpYOk6fwmlYwdr3kciL8wY4=
+		</data>
+		<key>Resources/webview/js/finish.js</key>
+		<data>
+		gqiCm9P+vNVXTJAs88j5GM9quKk=
+		</data>
+		<key>Resources/webview/js/lib/dom_json.js</key>
+		<data>
+		BuYEjso9ZHe/ApFDisz6jgWCNaU=
+		</data>
+		<key>Resources/webview/js/lib/polyfill.js</key>
+		<data>
+		8Th3arJ3gut0LU9KjBW/nNpx5eI=
+		</data>
+		<key>Resources/webview/js/state.js</key>
+		<data>
+		KiYEmZTqUMOZti9dJp1hmkW0uqk=
+		</data>
+		<key>Resources/webview/lib/Microsoft.Web.WebView2.Core.dll</key>
+		<data>
+		glzNwvxoGl63MI5QkQInDYlMqyw=
+		</data>
+		<key>Resources/webview/lib/Microsoft.Web.WebView2.WinForms.dll</key>
+		<data>
+		wqoE1Axptz1ZNKMjqpRa1Pltzvs=
+		</data>
+		<key>Resources/webview/lib/WebBrowserInterop.x64.dll</key>
+		<data>
+		63mslYGprhn1b/8zVK2x4CV+AhY=
+		</data>
+		<key>Resources/webview/lib/WebBrowserInterop.x86.dll</key>
+		<data>
+		6RGUBj4Ba0SK23xbtHV02o0kreM=
+		</data>
+		<key>Resources/webview/lib/pywebview-android.jar</key>
+		<data>
+		OwUwwiZl3Rb/TyAkd7WMACLl/ak=
+		</data>
+		<key>Resources/webview/lib/runtimes/win-arm64/native/WebView2Loader.dll</key>
+		<data>
+		7UmGcXvJLI3EUujmmsKeL1sDkiM=
+		</data>
+		<key>Resources/webview/lib/runtimes/win-x64/native/WebView2Loader.dll</key>
+		<data>
+		fUOm4KJ+/IpEeUuHRb8VfteM/ZY=
+		</data>
+		<key>Resources/webview/lib/runtimes/win-x86/native/WebView2Loader.dll</key>
+		<data>
+		ei32Yq9a+RnQyBXoDFjIEdfOKw0=
+		</data>
+		<key>Resources/webview/localization.py</key>
+		<data>
+		PlHWuBIzz/KgrtIQ7SaYckPM0aI=
+		</data>
+		<key>Resources/webview/menu.py</key>
+		<data>
+		Bi6iz0C9B4bkXiwutc3L4XKPmjM=
+		</data>
+		<key>Resources/webview/models.py</key>
+		<data>
+		xE9RCL0tbpP7/6yCdcx1Xgn/7u8=
+		</data>
+		<key>Resources/webview/platforms/__init__.py</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>Resources/webview/platforms/android/__init__.py</key>
+		<data>
+		PcIqK/nf6cSd0lDfOGzB0eJcbyk=
+		</data>
+		<key>Resources/webview/platforms/android/app.py</key>
+		<data>
+		RmuGmiOTdb/AX1swc6CwHa4qycc=
+		</data>
+		<key>Resources/webview/platforms/android/base.py</key>
+		<data>
+		dsK8//l9DtfCaO14EWTF6GzeONc=
+		</data>
+		<key>Resources/webview/platforms/android/event.py</key>
+		<data>
+		riRJ2JIJXIMjlLkDhw2oWKKDOcM=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/__init__.py</key>
+		<data>
+		3f7X8sflR/3Z3qCl5egY2BdXLXQ=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/app.py</key>
+		<data>
+		FLX85UT34PO0QbbVgaRhewwrRcs=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/content.py</key>
+		<data>
+		XxEkkAv3Sl1fdFMB6+wSF39EvO0=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/net.py</key>
+		<data>
+		jifnCK9wLRjWIaxXsJ4hiXEf6Dw=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/os.py</key>
+		<data>
+		MkyDtDoViiSk4FPwHQy6lzcJRIA=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/view.py</key>
+		<data>
+		Llo8j7EMfEUDf1WZHLD9/suP+ag=
+		</data>
+		<key>Resources/webview/platforms/android/jclass/webkit.py</key>
+		<data>
+		82Ro0Wes5Pe4kZ6X5sxHPaIk+Qc=
+		</data>
+		<key>Resources/webview/platforms/android/jinterface/__init__.py</key>
+		<data>
+		Wkw6MOUEN6sdRUuZ9QDZxF9bBSU=
+		</data>
+		<key>Resources/webview/platforms/android/jinterface/pywebview.py</key>
+		<data>
+		m+imHaCSPzn7SG0rGsHuWR7eHvE=
+		</data>
+		<key>Resources/webview/platforms/android/jinterface/view.py</key>
+		<data>
+		+WXcVFfxevCSprMqg8LqdFJQHVY=
+		</data>
+		<key>Resources/webview/platforms/android/jinterface/webkit.py</key>
+		<data>
+		lrDrzdhZJ9TfO0JJBoBL0Q3V+Wg=
+		</data>
+		<key>Resources/webview/platforms/cef.py</key>
+		<data>
+		WcSjHTqr/JARCzrH5ZFKuyMrHTc=
+		</data>
+		<key>Resources/webview/platforms/cocoa.py</key>
+		<data>
+		TwcGwXH7pWRSef5VvcbKmUxTt1E=
+		</data>
+		<key>Resources/webview/platforms/edgechromium.py</key>
+		<data>
+		Y6jpXYEb6YUadGaZ7JLhKYu/bhY=
+		</data>
+		<key>Resources/webview/platforms/gtk.py</key>
+		<data>
+		nDccA11OtvZmzrt43umwbUhsaXQ=
+		</data>
+		<key>Resources/webview/platforms/mshtml.py</key>
+		<data>
+		ZzqdII8T85Ac/qWLoAz+qiaHf5Q=
+		</data>
+		<key>Resources/webview/platforms/qt.py</key>
+		<data>
+		opFatIcCO4ntTHDzdRukybbRQ34=
+		</data>
+		<key>Resources/webview/platforms/win32.py</key>
+		<data>
+		G77C07Bqjck3lFT849iGLoK0T3U=
+		</data>
+		<key>Resources/webview/platforms/winforms.py</key>
+		<data>
+		IM8hs/FEhkNj/kSHD4fZv5NU0b4=
+		</data>
+		<key>Resources/webview/py.typed</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>Resources/webview/screen.py</key>
+		<data>
+		sq8RjjJTZp8EZ/+xQOQrmTF6S60=
+		</data>
+		<key>Resources/webview/state.py</key>
+		<data>
+		4mvcXqh2VvOA40rPOmwJbuSSQfs=
+		</data>
+		<key>Resources/webview/util.py</key>
+		<data>
+		pQrdYm7deolAvmV4WrBEntU5Y4I=
+		</data>
+		<key>Resources/webview/window.py</key>
+		<data>
+		U1xIcre0B8cajjHlcIhZslecF0o=
+		</data>
 		<key>Resources/werkzeug-3.1.8.dist-info/INSTALLER</key>
 		<data>
 		16AxQdXWseiLa1nvCLZoHfISxZk=
@@ -338,7 +590,11 @@
 		</data>
 		<key>Resources/werkzeug-3.1.8.dist-info/RECORD</key>
 		<data>
-		HJ6E8vQR1LaYq1NukEZFwuklTzo=
+		nJXHrurA8nxvDDGNyijf+N0w2Lo=
+		</data>
+		<key>Resources/werkzeug-3.1.8.dist-info/REQUESTED</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
 		</data>
 		<key>Resources/werkzeug-3.1.8.dist-info/WHEEL</key>
 		<data>
@@ -351,6 +607,60 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Frameworks/AppKit/_AppKit.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Nqbjoq1O+7GUMcCljtT1yHw6ZlQ=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"36a6e3a2ad4efbb19431c0a58ed4f5c87c3a6654"</string>
+		</dict>
+		<key>Frameworks/AppKit/_inlines.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			8UO1XnVSWLkpFY1xvUrJmdUxOp0=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"f143b55e755258b929158d71bd4ac999d5313a9d"</string>
+		</dict>
+		<key>Frameworks/CoreFoundation/_CoreFoundation.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			P9kWsQjmwF/SB8IDvO9hRyPHSjM=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"3fd916b108e6c05fd207c203bcef614723c74a33"</string>
+		</dict>
+		<key>Frameworks/CoreFoundation/_inlines.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			FUAHhKM5jFphzAd1lVjawjOUrZs=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"15400784a3398c5a61cc07759558dac23394ad9b"</string>
+		</dict>
+		<key>Frameworks/Foundation/_Foundation.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			v8DBpIIN1/DOVfULvylHU7iG62E=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"bfc0c1a4820dd7f0ce55f50bbf294753b886eb61"</string>
+		</dict>
+		<key>Frameworks/Foundation/_inlines.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			UYZ9RjGTV9ZaPvlno+IFb8esx+w=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"51867d46319357d65a3ef967a3e2056fc7acc7ec"</string>
+		</dict>
 		<key>Frameworks/Python</key>
 		<dict>
 			<key>symlink</key>
@@ -365,15 +675,24 @@
 			<key>requirement</key>
 			<string>cdhash H"4840a5996c47a2d852b957b8ca04220f57eddac1"</string>
 		</dict>
+		<key>Frameworks/WebKit/_WebKit.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			5btXFnA648KmPwiUZ1Jbv/2QnVM=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"e5bb5716703ae3c2a63f089467525bbffd909d53"</string>
+		</dict>
 		<key>Frameworks/base_library.zip</key>
 		<dict>
 			<key>symlink</key>
 			<string>../Resources/base_library.zip</string>
 		</dict>
-		<key>Frameworks/click-8.3.1.dist-info</key>
+		<key>Frameworks/click-8.3.3.dist-info</key>
 		<dict>
 			<key>symlink</key>
-			<string>../Resources/click-8.3.1.dist-info</string>
+			<string>../Resources/click-8.3.3.dist-info</string>
 		</dict>
 		<key>Frameworks/flask-3.1.3.dist-info</key>
 		<dict>
@@ -425,6 +744,24 @@
 			</data>
 			<key>requirement</key>
 			<string>cdhash H"d0dda7cd9761c2734d21c2aea7a524349ee04a60"</string>
+		</dict>
+		<key>Frameworks/objc/_machsignals.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			DcvUzkteQngWEyYmWb4Avvq+R6E=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"0dcbd4ce4b5e42781613262659be00befabe47a1"</string>
+		</dict>
+		<key>Frameworks/objc/_objc.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			9KKOZlZyR1UK/vTl1nEwbHdZ02k=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"f4a28e66567247550afef4e5d671306c7759d369"</string>
 		</dict>
 		<key>Frameworks/python3.11</key>
 		<dict>
@@ -565,6 +902,15 @@
 			</data>
 			<key>requirement</key>
 			<string>cdhash H"b9d3290006b0b34e282073cfdb0a14e492af9b32"</string>
+		</dict>
+		<key>Frameworks/python3__dot__11/lib-dynload/_elementtree.cpython-311-darwin.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jXh5cRnYnE0AO+vczw6vgUheMic=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"8d78797119d89c4d003bebdccf0eaf81485e3227"</string>
 		</dict>
 		<key>Frameworks/python3__dot__11/lib-dynload/_hashlib.cpython-311-darwin.so</key>
 		<dict>
@@ -881,15 +1227,6 @@
 			<key>requirement</key>
 			<string>cdhash H"43c1f3496a20d5a7e0a67dcc2ef32159f7bdcb93"</string>
 		</dict>
-		<key>Frameworks/python3__dot__11/lib-dynload/syslog.cpython-311-darwin.so</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			FKDgH0fD4xPrt5TWiguVJLbJ/Gw=
-			</data>
-			<key>requirement</key>
-			<string>cdhash H"14a0e01f47c3e313ebb794d68a0b9524b6c9fc6c"</string>
-		</dict>
 		<key>Frameworks/python3__dot__11/lib-dynload/termios.cpython-311-darwin.so</key>
 		<dict>
 			<key>cdhash</key>
@@ -917,10 +1254,10 @@
 			<key>requirement</key>
 			<string>cdhash H"c0002136a39afe62cdd440be2aceb6d99236faf5"</string>
 		</dict>
-		<key>Frameworks/setuptools</key>
+		<key>Frameworks/pywebview-6.2.1.dist-info</key>
 		<dict>
 			<key>symlink</key>
-			<string>../Resources/setuptools</string>
+			<string>../Resources/pywebview-6.2.1.dist-info</string>
 		</dict>
 		<key>Frameworks/static</key>
 		<dict>
@@ -932,10 +1269,30 @@
 			<key>symlink</key>
 			<string>../Resources/templates</string>
 		</dict>
+		<key>Frameworks/webview</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Resources/webview</string>
+		</dict>
 		<key>Frameworks/werkzeug-3.1.8.dist-info</key>
 		<dict>
 			<key>symlink</key>
 			<string>../Resources/werkzeug-3.1.8.dist-info</string>
+		</dict>
+		<key>Resources/AppKit</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Frameworks/AppKit</string>
+		</dict>
+		<key>Resources/CoreFoundation</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Frameworks/CoreFoundation</string>
+		</dict>
+		<key>Resources/Foundation</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Frameworks/Foundation</string>
 		</dict>
 		<key>Resources/Python</key>
 		<dict>
@@ -947,42 +1304,54 @@
 			<key>symlink</key>
 			<string>../Frameworks/Python.framework</string>
 		</dict>
+		<key>Resources/WebKit</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Frameworks/WebKit</string>
+		</dict>
 		<key>Resources/base_library.zip</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NsB0xVCu/c4Hyb1ZXlG1mcGwbXtFwN+KoqZ7IGC1Qw0=
+			QtzAVIBwc017UN57PhGAFy1t6lXw1rCDgXmMQ5HFevM=
 			</data>
 		</dict>
-		<key>Resources/click-8.3.1.dist-info/INSTALLER</key>
+		<key>Resources/click-8.3.3.dist-info/INSTALLER</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			zuuue4knoyJ+UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg=
 			</data>
 		</dict>
-		<key>Resources/click-8.3.1.dist-info/METADATA</key>
+		<key>Resources/click-8.3.3.dist-info/METADATA</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XZeBrMAE0ghTE88SjfrSDuSyNCpBPplxJR1tbwD9oZg=
+			/sjhT7/ZKYkyseqbWJtQA8eAcV2CeDJdcNrX/92pSCY=
 			</data>
 		</dict>
-		<key>Resources/click-8.3.1.dist-info/RECORD</key>
+		<key>Resources/click-8.3.3.dist-info/RECORD</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UQULNEYmddZXJBNsdkbmW4BK7gICdXBTdSMCm1UUHgY=
+			McjvjOZx14fN/x64Q/idC3mUl6b+WLSjkjzHWYGx/Ow=
 			</data>
 		</dict>
-		<key>Resources/click-8.3.1.dist-info/WHEEL</key>
+		<key>Resources/click-8.3.3.dist-info/REQUESTED</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			</data>
+		</dict>
+		<key>Resources/click-8.3.3.dist-info/WHEEL</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			G2gURzTEtmeR8nrdXUJfNiB3VYVxigPQ+bEQujpNiNs=
 			</data>
 		</dict>
-		<key>Resources/click-8.3.1.dist-info/licenses/LICENSE.txt</key>
+		<key>Resources/click-8.3.3.dist-info/licenses/LICENSE.txt</key>
 		<dict>
 			<key>hash2</key>
 			<data>
@@ -1007,7 +1376,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7EX8wuC6F8xxD3kvj7D4VYpy/YHC5XbeCGzTCJT8R80=
+			vqjBzy76h0uBrcRPYU5zDdy9iOWkETzDCGQb766I1EY=
 			</data>
 		</dict>
 		<key>Resources/flask-3.1.3.dist-info/REQUESTED</key>
@@ -1070,7 +1439,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nufnXKcxawlhmrV0wu/rtSwIN++PJv7rAwQLjp7gn5s=
+			2It7U+idLtmUun7dGjHEwNZmoA4KVh5LMKlE/5gCAVc=
+			</data>
+		</dict>
+		<key>Resources/itsdangerous-2.2.0.dist-info/REQUESTED</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
 			</data>
 		</dict>
 		<key>Resources/itsdangerous-2.2.0.dist-info/WHEEL</key>
@@ -1118,7 +1494,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3+hKEx63sD/tr1wDv5q85Czq7j0mR9K+txnh0HrawBM=
+			sHxA9wtz9PPtmBD7sIjipy2FIQ8OxZe9DoJy6GMXKas=
+			</data>
+		</dict>
+		<key>Resources/markupsafe-3.0.3.dist-info/REQUESTED</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
 			</data>
 		</dict>
 		<key>Resources/markupsafe-3.0.3.dist-info/WHEEL</key>
@@ -1142,65 +1525,70 @@
 			qy0Plje5IJuvsCBjejJyhDCjEAdcDLK/2agVcex8Z6U=
 			</data>
 		</dict>
+		<key>Resources/objc</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Frameworks/objc</string>
+		</dict>
 		<key>Resources/python3.11</key>
 		<dict>
 			<key>symlink</key>
 			<string>../Frameworks/python3.11</string>
 		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/INSTALLER</key>
+		<key>Resources/pywebview-6.2.1.dist-info/INSTALLER</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			zuuue4knoyJ+UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg=
 			</data>
 		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE</key>
+		<key>Resources/pywebview-6.2.1.dist-info/METADATA</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			z8d0m5b2O9McPEK1xHG/dWgUBT6EfBDz6wA0F7xSPTA=
+			jn+HteULmSvETZ8dwD+1IY8LbaXWxLnyH5ORa/RFacc=
 			</data>
 		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/METADATA</key>
+		<key>Resources/pywebview-6.2.1.dist-info/RECORD</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			anuQ7/7h4J1bSEzfcjIBakPi2cyVQ7y7jklLHsBeH1k=
+			fD/uIRl3ZVhxdIExnoJfc6Y/JM4Xw+l5LcF5NT8hlls=
 			</data>
 		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/RECORD</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			DY08buueu+hsrH1ghhVSQzwynanqUSSLYdAr4uXmQDA=
-			</data>
-		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/REQUESTED</key>
+		<key>Resources/pywebview-6.2.1.dist-info/REQUESTED</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
 			</data>
 		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/WHEEL</key>
+		<key>Resources/pywebview-6.2.1.dist-info/WHEEL</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			mguMlWGMX+VHnMpKOjjQidIo1ssRlCFu4a4mBpz1s2M=
+			aeYiig01lYGDzBgS8HxWXOg3uV61G9ijOsup+k9o1sk=
 			</data>
 		</dict>
-		<key>Resources/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/top_level.txt</key>
+		<key>Resources/pywebview-6.2.1.dist-info/entry_points.txt</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CO3fD9yylANiXkrMo4qHLV/mqXL2sC5JFKgt1yWAT+A=
+			9LC45PCvcE+KEf9GnEOgRom/deLsCxohUWOsXf40KH8=
 			</data>
 		</dict>
-		<key>Resources/setuptools/_vendor/jaraco/text/Lorem ipsum.txt</key>
+		<key>Resources/pywebview-6.2.1.dist-info/licenses/LICENSE</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N/7c/79zxOufBY9HZ3yzMgOkNv+TkOTTio4BydrSjgs=
+			SpiN01mIMs02U94g3DPLZ30PtTq1VRyHnKMSgK5lNnU=
+			</data>
+		</dict>
+		<key>Resources/pywebview-6.2.1.dist-info/top_level.txt</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			d5SpaV1yBkWk3tar+VrEOX+bBM9jXPlVdVNpN5FQrxA=
 			</data>
 		</dict>
 		<key>Resources/static/style.css</key>
@@ -1539,6 +1927,426 @@
 			tPJ2rJiY70PqbutCc53yGSGD0CmdGFR4rY6JNEglnnY=
 			</data>
 		</dict>
+		<key>Resources/webview/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			U6YxpXnONC+0Xvvk7wJLKN6rs08GG88Fj9gYzieqfoA=
+			</data>
+		</dict>
+		<key>Resources/webview/__pyinstaller/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+c4Zo8nQGKAm8wc/LDscxMtK7zr/YhZwRnC9CMruUBE=
+			</data>
+		</dict>
+		<key>Resources/webview/__pyinstaller/hook-webview.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			0jHuxRc+YyexONF+J9TWEzPIiltR3ikUTUwci5FmN7o=
+			</data>
+		</dict>
+		<key>Resources/webview/_version.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			QUYsMdOFCFsZV4jxWDz/g9YNvbCpKCEKQanzAfY/wDk=
+			</data>
+		</dict>
+		<key>Resources/webview/dom/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			UV5pmB6oui7+oy1HOp+QYYVFAUdcGMM9hjUBrKmeb7U=
+			</data>
+		</dict>
+		<key>Resources/webview/dom/classlist.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			1EB1vXC4Gf094fu8y+DNZqGwL2YV+3xtymgtyc5zyBQ=
+			</data>
+		</dict>
+		<key>Resources/webview/dom/dom.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nrQsP89T2VihOM/aLwlQMQ8dgVKOvLcN1r+QJOSGWyY=
+			</data>
+		</dict>
+		<key>Resources/webview/dom/element.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			sTGn53cYegV+t585UK7eXexjA67iE7nMf1hGVxdiGDc=
+			</data>
+		</dict>
+		<key>Resources/webview/dom/event.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			0Q6L94sexhvAn08uDe2+s+8K8yC9YnfjLfLQ2breiwM=
+			</data>
+		</dict>
+		<key>Resources/webview/dom/propsdict.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			DnDdcanWngzZpNXJwl5lzhTu1muEk2jMnD/kQJ1U5M4=
+			</data>
+		</dict>
+		<key>Resources/webview/errors.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			sxkonFRlDk/pIxP3mIN4WMVn3e45vAzvSQVspSiswR8=
+			</data>
+		</dict>
+		<key>Resources/webview/event.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ivfcYDEx4Ks2Bc651FRbdJ4FLg61rpExpQs4DmH4urw=
+			</data>
+		</dict>
+		<key>Resources/webview/guilib.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rHgPktrodh3XfE0wMGstiZt1luaxaHWp0oDH7Bf4L/A=
+			</data>
+		</dict>
+		<key>Resources/webview/http.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			4sG6EuVguVkYU2mR7Ai6T0aAElJ/OWxDXaJ+i1uQKyg=
+			</data>
+		</dict>
+		<key>Resources/webview/js/api.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			y2i4vtQn+jVq6iY3bkl1UvVdkTKcCTwCamUjDQdOKyc=
+			</data>
+		</dict>
+		<key>Resources/webview/js/customize.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7RTQtZQmbf44NMyFZbRKgVdCBDKu709zOrUFvW7Ym4o=
+			</data>
+		</dict>
+		<key>Resources/webview/js/finish.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dRRDCD3R0rLvQUJpLyW8T24E+N5NgsRVxzRzcA8AyMs=
+			</data>
+		</dict>
+		<key>Resources/webview/js/lib/dom_json.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			cPriqKjrx5DcYWqnl2B0zt2AInXBc8kK1L870UFj+cQ=
+			</data>
+		</dict>
+		<key>Resources/webview/js/lib/polyfill.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SBoI9TN6dwrPSbOML1jdDJX5K/nb2Sv4K1loNuo0OrU=
+			</data>
+		</dict>
+		<key>Resources/webview/js/state.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			aO6H7AFWPLyrd6V3BKMvGbR0NsnV4lS/upZ1pRwTIHU=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/Microsoft.Web.WebView2.Core.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ghmjE1Q2wUf46wL7gx6ZWWED7rwYtte3lMqT9MZwGKI=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/Microsoft.Web.WebView2.WinForms.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			xI+Ncp3FMSiNLFOmJB7/55Iu0blHhQskQgCKlFwJjEg=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/WebBrowserInterop.x64.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			9qZGRw8OEFgiSlLo4uIXUB3KRpObML/Jpd1NzdQ/CI0=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/WebBrowserInterop.x86.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TlJyl/vqfFoEGfOmrzB8JoF4e+sL8O8/6oSaf9haCNw=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/pywebview-android.jar</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			P50+7toJzli629dCqYGkY8BnwznItOcLQEwA67Tsc6M=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/runtimes/win-arm64/native/WebView2Loader.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			CTcDDvxxjz2nfF4JePtQRuOB0Lt7Aayq0xpTWhtYijM=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/runtimes/win-x64/native/WebView2Loader.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			61M17eqm8hIsBE6CqrI1HcjJtOD+XleMcZIvthvihec=
+			</data>
+		</dict>
+		<key>Resources/webview/lib/runtimes/win-x86/native/WebView2Loader.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BIFLLFkxTGRS1huCGko6XF+OhXe1W5hfanpLWfiQfsU=
+			</data>
+		</dict>
+		<key>Resources/webview/localization.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			MQ/q9MSgqZxy6uTJkul0WZDuJEABaeG8imuP/ZPqlr4=
+			</data>
+		</dict>
+		<key>Resources/webview/menu.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			o32aayTITZ35icET2PRRYgPB66X1+IX/bdHGAhhoeeA=
+			</data>
+		</dict>
+		<key>Resources/webview/models.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Htx1fflPTPxZAuk7emwbqcFhdHq0YzTXR+mvSEpb6vU=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			4Sxc5+lu54vFxqgeW+roCnvHTiuZyPGN8GuYRH6iJ2Y=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/app.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Kb8/qb4msgblezPJwlOriNTs5+85jXu39OvCJ7ijlgc=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/base.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			vNP323RZT5jmLjhIcbNlyAb3RbbfDEQXH/dSATJ02jg=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/event.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Qzlp05QvGfEMtz1GdYTle8h+AfYfcxGmx71uya3+4gM=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rePSAOCyPOJgpDsSCM4rAOr00NHUg0oELa0WEA7WHJI=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/app.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ADQD2iI4Mvwxq0TM8bIs3LtDAacf4yeWg9eAaBgdTfE=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/content.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5Baw1O1vjjGFFmea2SfaegFRdnS0CA/9Ti0k854JqyY=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/net.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BxHWgRji3rGae8dGgWvfffsNcRiaGZ0tp0jDlI1KzsQ=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/os.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			EkpjQtJKOLfeemrKOdC7dBEI5OL4w2Ut4ctQTQo1hUc=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/view.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+wLA07LcBBEyzzHP4fHq1SsfC8q1/IJybq+OjDdePvI=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jclass/webkit.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			p+4sbZl9SajskOsq+N/m9IxXGKRESUyk6z9zIWbipmI=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jinterface/__init__.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			9WS1ACQaxFLqY4PDlNY55E3KWa3C55BNdeK6vtzPzJo=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jinterface/pywebview.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			zG00CU79fhYbiHnJb4jbr/sYK3bfaaC/RUqydIE1qDE=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jinterface/view.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			giuy6nMPTP+zsOCXlemg4u0D2etH5BZCUBdShlw01jE=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/android/jinterface/webkit.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			WDAbFjRM+pEmwgS73oSiDRrSVxC2K+z1mmsgrF3Lfp4=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/cef.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			qeo+Xj9ZfWRdPiN91DptVThFFg6Gsm41JP4hK9PuVuQ=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/cocoa.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			J6XpW+CBbwu6e+2RDu2hG5LeRZhBmidfk0YCPiS6J68=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/edgechromium.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8/kWjss590R1ZhEv0UxexVgw7d8CBT6v7w2G+sUJo6Q=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/gtk.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			J4A8eAhHE5y2IwquFu8rnu0/eUTKhj9qP5dRqlPuZI8=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/mshtml.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			J+5mDWSF11JF5l5/C+W2MbEdWTAj1AUAo7mR7/RLUyg=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/qt.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			DXixMr5Bbp3zxWJkXpWNG+g+EeRRihmoYaLFc9Swthw=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/win32.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			wk3pySJ4ydTkjhMEXUciW209ZimwiY8lMIg6dKXlIuI=
+			</data>
+		</dict>
+		<key>Resources/webview/platforms/winforms.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			45YqWedFMtkmbwjR77CGUZh3stMi6oOQADb1l5TbS00=
+			</data>
+		</dict>
+		<key>Resources/webview/py.typed</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			</data>
+		</dict>
+		<key>Resources/webview/screen.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ppIFOEhyVrAi5ybr6HkCz2DWqgwUccxL2cl5+LaJJHk=
+			</data>
+		</dict>
+		<key>Resources/webview/state.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			eaR7S27BfI6jw3fDxtNgDAQicgi7c3wPqDnPvgh7hi0=
+			</data>
+		</dict>
+		<key>Resources/webview/util.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			plK9Bb+5p6lSHoq1LxBCUWH6aoQHepLKXc0lU1m4NqQ=
+			</data>
+		</dict>
+		<key>Resources/webview/window.py</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			AN4LIVUwiingr0LT5cQCIc0eofsw0r5VpAirGzFNWwM=
+			</data>
+		</dict>
 		<key>Resources/werkzeug-3.1.8.dist-info/INSTALLER</key>
 		<dict>
 			<key>hash2</key>
@@ -1557,7 +2365,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EA5h6MGZeAItp0JFUb4GjAJovK7J79lAFmBYka863FM=
+			BIfImy2/iVTZltxv5AXT63//79LwuRwVOi8xnSecI+A=
+			</data>
+		</dict>
+		<key>Resources/werkzeug-3.1.8.dist-info/REQUESTED</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
 			</data>
 		</dict>
 		<key>Resources/werkzeug-3.1.8.dist-info/WHEEL</key>
